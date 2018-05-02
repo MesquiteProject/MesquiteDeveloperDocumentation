@@ -1,0 +1,119 @@
+<!--This file created 4.4.99 11:53 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Mesquite menus</title>
+		<x-sas-window top="65" bottom="739" left="36" right="820">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center" bgcolor="#66ff66"><a href="Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="images/raindrop.gif"> <a href="Mesquite_development.html"><font color="#330099">Table of Contents</font></a> <img height="12" width="7" src="images/raindrop.gif"> <a href="overview.html"><font color="#330099">Overview</font></a> <img height="12" width="7" src="images/raindrop.gif"> <a href="issues.html"><font color="#330099">To Do: issues and problems</font></a> <img height="12" width="7" src="images/leaftip.gif"> <a href="../manual.html">Home page of user's manual</a><br>
+											<img height="12" width="7" src="images/leaftip.gif"> <a href="../howMesquiteWorks.html">User's introduction to how Mesquite works</a> <img height="12" width="7" src="images/leaftip.gif"> <a href="javadoc/index.html">Classes and Interfaces (javadoc output)</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Menus in Mesquite</h2>
+		
+<p>(updated August 2005)</p>
+		<p>Modules in Mesquite can request menus and menuItems by calling various of their methods, e.g. addMenuItem or addSubMenu. These methods belong to the superclass <a href="javadoc/mesquite/lib/MenuOwner.html">MenuOwner</a> of MesquiteModule.)  These methods don't immediately create a menu item; rather they create a specification for a menu item. Later, when a request is made to reset menus (e.g., when an employee is hired and its menu items must be incorporated), the composeMenuBar method of the MesquiteModule class recurses through employee modules and checks menu specifications they have requested, and turns them into real java Menu and MenuItem objects (actually, Mesquite's own subclasses). One reason for doing this is that each MenuItem in Java can belong to only one Menu, and since separate MenuBar's are maintained for each window, and a given module's menu items may need to appear in several of these MenuBar's, a given request for a menu item would generate multiple actual MenuItems, one in each MenuBar. Thus, a single specification (e.g., <a href="javadoc/mesquite/lib/MesquiteMenuItemSpec.html">MesquiteMenuItemSpec</a>) is made, but this specification could generate many identical looking MenuItems.</p>
+		
+<p>If the Option/ALT key is held while a menu item is selected, an explanation 
+  of the menu item is shown in the explanation area of the window.</p>
+		<h3>Menu items and commands</h3>
+		<p>Every menu item in Mesquite operates via an attached <a href="commands/commands.html">command</a> (an object of class MesquiteCommand). When the menu item is selected, the attached command is executed.</p>
+		<h3>Adding a single menu item</h3>
+		<p>The MesquiteModule method addMenuItem(MesquiteMenuSpec whichMenu, String itemName, MesquiteCommand command) requests to add to whichMenu a menu item with label &quot;itemName&quot; that activates the given command. (Actually, as described above, it doesn't actually add the menu item. It adds a specification for a menu item to the specification for the menu.) Thus a module that wants to add a menu item named &quot;Tickle Me&quot; that actives the &quot;tickleMe&quot; command could do it as follows:</p>
+		<pre>
+addMenuItem(&quot;Tickle Me&quot;, makeCommand(&quot;tickleMe&quot;,this));</pre>
+		<p>(Note 1: where the menu item will appear will be explained momentarily. Note 2: makeCommand is a static method of MesquiteModule. Its use can be found in the discussion of <a href="commands/commands.html">commands</a>.) That's all you have to do. The menu item will appear, and whenever the item is selected, the module's doCommand method will be called and passed the String &quot;tickleMe&quot;.</p>
+		<h3>Checked menu items</h3>
+		<p>A system for having checked menu items (CheckboxMenuItem) is in place, both for submenus (in which the active submenu item is checked) and for lone menu times. The checking and unchecking is managed by changing the values of special wrapper classes for Strings and booleans (MesquiteString and MesquiteBoolean). For instance, the following shows checking of items in a submenu via a MesquiteString. The variable treeDrawTask refers to a MesquiteModule of subclass DrawTree, treeDrawName to a MesquiteString, submenuSpec to a MesquiteSubmenuSpec.</p>
+		<pre>
+treeDrawTask= (DrawTree)hireEmployee(scripting, DrawTree.class);
+treeDrawName = new MesquiteString(treeDrawTask.getName());
+submenuSpec = addSubmenu(null, &quot;Tree Form&quot;, makeCommand(&quot;setTreeDrawer&quot;, this), DrawTree.class);
+submenuSpec.setSelected(treeDrawName);</pre>
+		<p>The first line hires the tree drawing module; the second makes the MesquiteString and fills it with the name of the current tree drawing module. The third line adds a submenu with a choice of alternative tree drawing modules. The fourth line associates the MesquiteString with the submenu (this is noted within the submenu specification, and the MesquiteString records that it is bound to a submenu). The submenu, when it is being composed, puts a checkmark beside its item that matches the string stored in the attached MesquiteString. Later, if the value contained in the MesquiteString is altered, the MesquiteTrunk method resetCheckedMenuItems is called.</p>
+		<p>For a single checked menu item, the special method addCheckMenuItem is called instead of addMenuItem. One of its arguments is a MesquiteBoolean. By passing a MesquiteBoolean, it is bound to the menu item. When the value of the MesquiteBoolean is changed, the MesquiteTrunk method resetCheckedMenuItems is called to set the checks to their current appropriate value.</p>
+		<h3>Where does a menu item get added?</h3>
+		<p>A module can indicate where to put a menu item by requesting it with the following method with the &quot;whichMenu&quot; argument specified:</p>
+		<pre>
+addMenuItem(MesquiteMenuSpec whichMenu, String itemName, MesquiteCommand command)</pre>
+		<p>However, if the call to this method passes null under whichMenu, or alternative methods are used that lack this argument, the final placement of the menu item depends on the circumstances. Usually, it gets inherited by the menu that most logically contains it, as follows:</p>
+		<ol>
+			<li>If the module owning the menu item has a menu it has made using makeMenu, the menu item will fall there.
+			<li>Otherwise, the menu item is placed in the most recent employer module that has its own menu. Thus, the menu of the employer module will not only have its own menu items, but will also inherit the otherwise-unplaced menu items of its employees.
+		</ol>
+		<p>The one exception to this inheritance pattern is that a module or its employer can call the setUseMenubar method of a module to suppress the presence of its menu items in the usual menu bar. This might be done so as to avoid clutter in the menu bar, and instead have the menus appear as popups (this is done currently by TreeLegend and for the columns in Character List Window).</p>
+		<h3>Adding a menu</h3>
+		<p>Each module has one primary menu (in which get added the items of its own or its employees that don't designate a specific menu) if it wants to use one. It can create such a menu by the makeMenu method. This actually makes a specification for a menu (<a href="javadoc/mesquite/lib/MesquiteMenuSpec.html">MesquiteMenuSpec</a>), which is later used to build a menu for each of the appropriate frames. A module should avoid making its own menu unless it is the home module that supervises some major calculation or display. Thus, Trace Character makes a Trace menu, but most of its employees and subemployees are expected to simply let their items fall there</p>
+		<p>Modules can also create Auxiliary menus for special purposes. This practice is discouraged but sometimes necessary. For instance, the Basic Tree Window module makes as its own primary menu the &quot;Tree&quot; menu, but it also creates an &quot;Analysis&quot; menu in which fall the list of analysis modules that can be activated.</p>
+		<h3>Adding a subMenu</h3>
+		<p>One method of MesquiteModule:</p>
+		<pre>
+<a href="javadoc/mesquite/lib/MesquiteSubmenuSpec.html"><font>MesquiteSubmenuSpec</font></a><font> addSubmenu(</font><a href="javadoc/mesquite/lib/MesquiteMenuSpec.html"><font>MesquiteMenuSpec</font></a><font> whichMenu, String submenuName)</font></pre>
+		<p>adds a submenu for that module. Items can later be added to that submenu using</p>
+		<pre>
+<a href="javadoc/mesquite/lib/MesquiteMenuItemSpec.html"><font>MesquiteMenuItemSpec</font></a><font> addItemToSubmenu(MesquiteMenuSpec whichMenu,MesquiteSubmenuSpec submenu,String itemName,MesquiteCommand command).</font></pre>
+		<p>However, subMenus are often used for a special function: to choose among alternative modules of a particular duty class that might be employed. For this, a special addSubmenu method is available that automatically creates the submenu <u>and</u> adds the list of appropriate modules to it. This is:</p>
+		<pre>
+<font>addSubmenu(MesquiteMenuSpec whichMenu, String submenuName, MesquiteCommand command, Class dutyClass)</font></pre>
+		<p>When a menu item in the submenu is selected, the command is executed with the name of the module as argument.</p>
+		<p>Another special submenu creator is</p>
+		<pre>
+<font>addSubmenu(MesquiteMenuSpec whichMenu, String submenuName, MesquiteCommand command, ListableVector lVector)</font></pre>
+		<p>which adds a submenu and fills it with the names of the elements of the ListableVector. When a menu item in the submenu is selected, the command is executed with the element number as argument.</p>
+		<h3>What does a MenuBar contain?</h3>
+		<p>A difficult issue for a cross-platform GUI is to handle differing menu conventions in different OS's. On Windows/Solaris, the menu bars belong to the windows, and hence the menu bars might tend to specialize only on issues relevant to the particular window. On the MacOS, the menu bars belong to the application as a whole. Mesquite's convention concerning which modules' menus to add to a particular menu bar has been designed to be somewhat of a compromise.</p>
+		<p>A window belongs to a particular module. The MenuBar associated with that window therefore contains all the of the module's menus and menu items, as well as all of the menus and menu items of the modules in its clade of the employee tree (i.e., its employees, their employees, and so on). The MenuBar also contains menus and menu items belong directly to the module's employer, its employer, and so on, to the root of the employer tree (i.e., the main Mesquite application). Thus, all of the module's descendants and direct ancestors are included, but none of its aunts and cousins. This means that the basic menus and menu items controlled by the main Mesquite application always appear, but other menus and menu items come and go depending on which window the menu bar belongs to. This is the reason the menu bar is occasionally rebuilt.</p>
+		<h3>Popup menus</h3>
+		<p>A module's menu items (and those of its employees that don't otherwise have a place) can be displayed as a popup menu in a container at point x, y by calling the module's showPopUp(Container cont, int x, int y) method.</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 2005 
+</body>
+
+</html>

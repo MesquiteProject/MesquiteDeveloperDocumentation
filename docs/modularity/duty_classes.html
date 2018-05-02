@@ -1,0 +1,146 @@
+<!--This file created 4.4.99 12:03 PM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Mesquite duty classes</title>
+		<x-sas-window top="108" bottom="675" left="118" right="953">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><a href="../commands/commands.html"><font color="#330099">Commands</font></a><a href="../commands/commands.html"><font color="#330099"> &amp; Scripting</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="architecture.html">Modular architecture</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="modules.html">Modules: subclasses of MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="employing.html">Modules employing other modules</a><br>
+											<img height="12" width="7" src="../images/raindrop.gif"> <a href="duty_classes.html">Duty Classes</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingModules.html">Writing modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="moduleDocumentation.html">Documentation for particular modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingPackages.html">Packages of Modules</a><br>
+											Also: <img height="12" width="7" src="../images/leaftip.gif"> <a href="../../howMesquiteWorks.html">User's introduction to modularity</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteModule.html">MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="../exampleModule/exampleIntro.html">Example Module</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Duty Classes</h2>
+		
+<p>(updated April 2005)</p>
+		<p>Modules are subclasses of MesquiteModule. However, it is expected that no module will directly subclass MesquiteModule, but will instead indirectly subclass it via the duty classes. Duty classes are subclasses of MesquiteModule that represent distinct roles a module could play. For instance, DrawTree is an abstract subclass of MesquiteModule that creates a tree drawing. A tree-drawing module would be expected to subclass DrawTree. Another duty class is TreeSource, another abstract subclass of MesquiteModule, but this time it supplies trees.</p>
+		<p>By convention, duty classes are part of the <a href="../javadoc/mesquite/lib/Package-duties.html">mesquite.lib.duties package</a>. Some of the defined duty classes are:</p>
+		
+<ul>
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharListAssistant.html">CharListAssistant</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharMatrixManager.html">CharMatrixManager</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharModelCurator.html">CharModelCurator</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharStatesForNodes.html">CharStatesForNodes</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharacterModelSource.html">CharacterModelSource</a> 
+    <ul>
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/ParsModelSource.html">ParsModelSource</a> 
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/ProbModelSource.html">ProbModelSource</a> 
+    </ul>
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharacterSimulator.html">CharacterSimulator</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharacterSource.html">CharacterSource</a> 
+    <ul>
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharacterOneSource.html">CharacterOneSource</a> 
+        <ul>
+          <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharacterMatrixSource.html">CharacterMatrixSource</a> 
+        </ul>
+    </ul>
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharactersManager.html">CharactersManager</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/CharsStatesForNodes.html">CharsStatesForNodes</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/DataWindowAssistant.html">DataWindowAssistant</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/DataWindowMaker.html">DataWindowMaker</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/DisplayCharsStsAtNodes.html">DisplayCharsStsAtNodes</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/DisplayStatesAtNodes.html">DisplayStatesAtNodes</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/DrawChart.html">DrawChart</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/DrawTaxonNames.html">DrawTaxonNames</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/DrawTree.html">DrawTree</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/DrawTreeCoordinator.html">DrawTreeCoordinator</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/FileAssistant.html">FileAssistant</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/FileCoordinator.html">FileCoordinator</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/FileInit.html">FileInit</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/FileInterpreter.html">FileInterpreter</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/ManagerAssistant.html">ManagerAssistant</a> 
+  <li>class mesquite.lib.<a href="../javadoc/mesquite/lib/MesquiteTrunk.html">MesquiteTrunk</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/FileElementManager.html">FileElementManager</a> 
+    <ul>
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/TaxaManager.html">TaxaManager</a> 
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/TreesManager.html">TreesManager</a> 
+    </ul>
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/NodeLocs.html">NodeLocs</a> 
+    <ul>
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/NodeLocsCircle.html">NodeLocsCircle</a> 
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/NodeLocsPlot.html">NodeLocsPlot</a> 
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/NodeLocsVH.html">NodeLocsVH</a> 
+    </ul>
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/NumberForCharAndTree.html">NumberForCharAndTree</a> 
+    <ul>
+      <li>class mesquite.stochchar.lib.<a href="../javadoc/mesquite/stochchar/lib/CharacterLikelihood.html">CharacterLikelihood</a> 
+      <li>class mesquite.parsimony.lib.<a href="../javadoc/mesquite/parsimony/lib/CharacterSteps.html">CharacterSteps</a> 
+    </ul>
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/NumberForCharacter.html">NumberForCharacter</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/NumberForMatrix.html">NumberForMatrix</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/NumberForMatrixAndTree.html">NumberForMatrixAndTree</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/NumberForTree.html">NumberForTree</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/NumbersForNodes.html">NumbersForNodes</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/OneTreeSource.html">OneTreeSource</a> 
+  <li>class mesquite.parsimony.lib.<a href="../javadoc/mesquite/parsimony/lib/ParsAncStatesForModel.html">ParsAncStatesForModel</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/TreeDisplayAssistant.html">TreeDisplayAssistant</a> 
+    <ul>
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/TreeDisplayAssistantA.html">TreeDisplayAssistantA</a> 
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/TreeDisplayAssistantD.html">TreeDisplayAssistantD</a> 
+      <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/TreeDisplayAssistantI.html">TreeDisplayAssistantI</a> 
+    </ul>
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/TreeSimulate.html">TreeSimulate</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/TreeSource.html">TreeSource</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/TreeWindowAssistant.html">TreeWindowAssistant</a> 
+  <li>class mesquite.lib.duties.<a href="../javadoc/mesquite/lib/Duties/TreeWindowMaker.html">TreeWindowMaker</a> 
+</ul>
+		<h3>Default module for a given duty</h3>
+		
+<p>A duty class can override the MesquiteModule method getDefaultModule() to return 
+  the names of the modules intended to be the default for the given duty. In the 
+  future the user should be able to override this in a way that would be saved 
+  to a preference file.</p>
+		<h3>Name of duty</h3>
+		<p>A duty class should override the MesquiteModule method getDutyName() to return the name of the duty performed. The name should be informative to the user.</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1998-2005
+</body>
+
+</html>

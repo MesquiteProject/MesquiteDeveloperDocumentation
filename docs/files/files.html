@@ -1,0 +1,92 @@
+<!--This file created 4.4.99 11:54 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Files in Mesquite</title>
+		<x-sas-window top="54" bottom="718" left="98" right="747">
+	</head>
+
+	<body bgcolor="#ffcc99">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="../modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="files.html">Introduction to Projects &amp; Files</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="nexus.html">Reading and Writing NEXUS files</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="Preferences.html">Saving preferences</a><br>
+											Also: <img height="12" width="7" src="../images/leaftip.gif"> <a href="../commands/snapshots.html">Saving the current state (snapshots)</a> <img height="12" width="7" src="../images/leaftip.gif"> <a href="../../projectsFiles.html">User's introduction to projects and files</a><br>
+											<img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteProject.html">MesquiteProject</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteFile.html">MesquiteFile</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/FileElement.html">FileElement</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Projects &amp; Files in Mesquite</h2>
+		
+<p>(updated August 2005)</p>
+		<p>Mesquite deals with many different aspects of phylogenetic information: taxa, characters, trees, models of character evolution, and so on. It can read this information from files on disk, for instance. Various pieces of information can be packaged in a single file on disk. As well, various pieces of information may be considered together by Mesquite while it is running, and these may come from more than one file on disk. Mesquite makes a distinction between collections of information on disk (<b>files</b>, represented in Mesquite by <a href="../javadoc/mesquite/lib/MesquiteFile.html">MesquiteFile</a> objects) and the collections of information it is considering at any given time (<b>projects</b>, represented in Mesquite by <a href="../javadoc/mesquite/lib/MesquiteProject.html">MesquiteProject</a> oblects). See the user's manual for a general introduction to <a href="../../projectsFiles.html">projects versus files</a>.</p>
+		<p>Managing projects and files is the duty of the Mesquite trunk module, and of the FileCoordinator module.</p>
+		<h3>FileElements &amp; NexusBlocks</h3>
+		<p>When a NEXUS file is read, its TAXA block is converted to a Taxa object, its CHARACTERS block is converted to a CharacterData object, and its TREES block is converted to a TreeVector object. Each of these objects represents a basic piece of phylogenetic information, and it is a subclass of <a href="../javadoc/mesquite/lib/FileElement.html">FileElement</a>. These objects have methods to set and get to which file the element belongs. (Because of the lack of multiple inheritance in Java, FileElements are subclasses of <a href="../javadoc/mesquite/lib/AssociableWithSpecs.html">AssociableWithSpecs</a> whose methods are needed by many, though not all, of the particular types of FileElements.)</p>
+		<p>A single block of a NEXUS file is represented as an object of type NexusBlock. Each file maintains a list of the NexusBlocks attached to them, so that on writing it knows what to components to request text from.</p>
+		<p>(Mesquite shifted from a more elaborate FileElement-only system to one that involves FileElements and NexusBlocks. The system probably hasn't quite stabilized, and this documentation doesn't tell the whole story.)</p>
+		<h3>MesquiteFile</h3>
+		<p>The file on disk or at a URL is represented in Mesquite as an object of class <a href="../javadoc/mesquite/lib/MesquiteFile.html">MesquiteFile</a>. This class concerns mostly basic input/output, and does not concern itself with the collection of elements of phylogenetic information (Taxa, etc.) except insofar as these elements are represented by NexusBlocks &amp; FileElements which need to know to what file they belong. The MesquiteProject is the class that coordinates these pieces of information.</p>
+		<h3>MesquiteProject</h3>
+		<p>A <a href="../javadoc/mesquite/lib/MesquiteProject.html">MesquiteProject</a> is an object that refers to a collection of information about taxa, character data, and other things. It is not the same as the file sitting on the disk or on a server. Several NEXUS files can be read from disk and their pieces of information all contribute to the same MesquiteProject. Thus, a project needs to keep track of all the files it has read or is working on, as well as all the elements of information. The first MesquiteFile opened in opening the project is the projects's <b>home file</b>. It is the default place in which new information is stored.</p>
+		<p>Currently, every MesquiteModule object (i.e., every instantiation of a module) has a field which indicates which MesquiteProject it is working with. Almost every module is an employee-descendant of the file coordinator module that supervises that MesquiteProject.</p>
+		<p>A MesquiteProject can have belonging to it multiple CharacterData objects (each representing a CHARACTERS block in a NEXUS file) and multiple Taxa objects (each representing a TAXA block in a NEXUS file). Because of the possibility of more than one Taxa object, CharacterData objects and Tree objects must store the Taxa to which they refer. This has challenged the NEXUS file format (for instance, most blocks need titles and CHARACTERS and TREES blocks need to include an early line indicating the Taxa, e.g. &quot;LINK TAXA=Adephaga;&quot;.</p>
+		<p>In many circumstances users will read in only a single file and work with it. In this case, the MesquiteProject has only a single MesquiteFile that belongs to it, and all of the informationwill be stored in that file. If this were the only way that Mesquite would be used, there would be no need for a distinction between projects and files. It is only when the user (or a script) requests to link other MesquiteFiles into the project that the notion of a project, as a multi-file collection of information, becomes useful. A design difficulty with Mesquite was how to minimize confusion in the user of projects vs. files. For instance, if there is only a single data file open, and thus one project, does the menu item say &quot;Close File&quot; or &quot;Close project&quot;? Technically Mesquite closes the whole MesquiteProject when this single file is closed, but the users probably thinks they have merely opened a single file, and now they want to close it. Thus, Mesquite in that case says only &quot;Close File&quot;. It is only when there are multiple files open that the menu items start to make the distinction between files and projects. This is not ideal, but the alternative would seem to be a two-tiered system in which there are special sorts of files called Mesquite Project Files which contain references to data files. This would probably seem foreign to a user (other programs simply open up the data file directly) and burdens them with the extra step of creating a project in addition to the data files. If you've every tried to explain to a beginning programmer how to deal with projects in IDE's like Codewarrior you'll realize how confusing and complex an explicit project-file can be. Mesquite opts for implicit projects, that to a user arise out of linking files together at run time.</p>
+		<h3>Opening and closing files</h3>
+		<p>This is a bit messy, because when the reader asks to open a file, he/she might be requesting an entirely new project, or might be requesting that a file be read and added to an existing project. The system is not worked out thoroughly yet. In general a distinction is made between opening a file (which makes a new project and reads the file) and linking a file (which adds the file to the currently foremost project).</p>
+		<p>The options in opening files are seen in the menu items:</p>
+		<ul>
+			<li><b>Open</b>: these menu items open a file on disk and start a new project to contain it. Implicitly then, these items are Open Project menu items. They are handled by the Mesquite trunk module. Its response to Open file is to hire a FileCoordinator employee module and let it take care of it. The File coordinator hires all modules of type FileInterpreter, then creates a <a href="../javadoc/mesquite/lib/MesquiteProject.html">MesquiteProject</a>.
+			<li><b>Include</b>: these menu items appear only if a file, and thus a project, are open. These menu items do not create a new project, but rather read a file from disk and include its information directly into the home file of an existing MesquiteProject. This information becomes part of that home file. Thus, after including a file, the MesquiteProject does not have any more MesquiteFiles than it did before. This menu item is handled by the FileCoordinator module of the MesquiteProject.
+			<li><b>Link</b>: these menu items appear only if a file, and thus a project, are open. These menu items do not create a new project, but rather read a file from disk and link its information into an existing MesquiteProject, while at the same time marking that information as belonging to a separate MesquiteFile. After linking a file, the MesquiteProject now has an additional MesquiteFile to which it refers. This menu item is handled by the FileCoordinator module of the MesquiteProject.
+		</ul>
+		<h3>Reading and writing files</h3>
+		<p>When the FileCoordinator attempts to read the file, it first checks to see if it is a NEXUS file. If so, it uses the NEXUS file interpreter to read the file (see <a href="nexus.html">Reading and Writing NEXUS files</a>). If it isn't a NEXUS file, Mesquite queries the user to choose an interpreter module.</p>
+		<p>When writing a file, the project must be surveyed for all NexusBlocks that belong to the file, and arrange for each to be written up for saving to the file (see <a href="nexus.html">Reading and Writing NEXUS files</a>).</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1999-2005</p> 
+<p>&nbsp;
+	</body>
+
+</html>

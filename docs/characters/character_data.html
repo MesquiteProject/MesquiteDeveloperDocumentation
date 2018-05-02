@@ -1,0 +1,231 @@
+<!--This file created 4.4.99 11:27 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Mesquite Character data</title>
+		<x-sas-window top="57" bottom="722" left="187" right="805">
+	</head>
+
+	<body bgcolor="#ffcc99">
+		<h2>
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="../modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="character_data.html">Character Data</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="character_models.html">Character Models</a> Also: <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/characters/CharacterState.html">CharacterState</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/characters/CharacterData.html">CharacterData</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/characters/CharacterDistribution.html">CharacterDistribution</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/characters/CharacterHistory.html">CharacterHistory</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/characters/CharacterModel.html">CharacterModel</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/ModelSet.html">ModelSet</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		</h2>
+		<h2>Character data in Mesquite</h2>
+		
+<p>(updated August 2005)</p>
+		<p>Abstract classes and interfaces are available for character data from the zero-dimensional (the representation of one state of a single character) to the one-dimensional (a data vector with states for a character in each of numTaxa taxa or at numNodes nodes), to the two-dimensional (a data matrix with states for each of numChars characters in each of numTaxa taxa). As well, standard subclasses of these are available for discrete and continuous characters.</p>
+		
+<p>The reason these abstract classes exist is so that many of the modules can 
+  pass references to objects in this datatype-neutral way. Some modules, e.g. 
+  those to shade the branches of the tree, don't even need to know what character 
+  type they are dealing with, since their needs are met by the methods provided 
+  (at least in abstract form) in the generic superclass.</p>
+<p>The class and interface hierarchy seems more complex than it needs to be, but 
+  we struggled considerably to simplify it and yet retain appropriate abstractness. 
+  (This is one place where we wish Java had had multiple inheritance!)</p>
+		<p>
+		<hr>
+		</p>
+		<h3>Classes and interfaces for matrices of characters X taxa</h3>
+		<h3><img height="31" width="36" src="images/mat.gif" align="top"> Class <a href="../javadoc/mesquite/lib/characters/CharacterData.html">CharacterData</a></h3>
+		<p>This abstract class represents an entire data set, including extra information like names of characters and perhaps states. It is more or less equivalent to a Characters block in a NEXUS file plus some associated parts of an Assumptions block, for a CharacterData object also includes the Model sets, and character inclusion sets and so on.</p>
+		<p>Currently the CharacterData class is used only for stored matrices (i.e., matrices stored as FileElements within a file). For temporary matrices produced by simulations and other calculations, the simpler MCharactersStates and its subclasses are used. Most modules requiring data matrices on which to do calculations receive them as an Interface descended from <b>MCharactersStatesHolder</b> such as <b>MCharactersDistribution</b>. Thus, most modules don't deal with CharacterData. A notable exception are the modules editing data matrices, which deal with CharacterData objects intimately.</p>
+		<p>Subclasses of CharacterData must define various methods, including those to add and move characters, return the number of characters, and return a String describing the states in a particular character for a particular taxon. The subclasses (and not CharacterData itself) are responsible for many obviously necessary methods, because they depend on the particular type of data (setState(int ic, int it, double state) would not apply to a discrete matrix, for example).</p>
+		<p>These subclasses might eventually have to maintain color tables for use in tracing characters and coloring cells in matrices, but for now the only color-related method is</p>
+		<pre>
+<font>drawColoredStates(Graphics g, int x, int y, int width, int height, int ic, int it)</font></pre>
+		<p>which draws within the given rectangle the states in character ic and taxon it, in color. The reason this is done as the responsibility of the CharacterData class (as opposed to a module, for example) is that the CharacterData class is responsible for figuring out String representation of states and might be responsible for color tables.</p>
+		<p>In the future it may be important to make a method within CharacterData to read Characters blocks in NEXUS files, so that new Characters types can be invented without the need for new reading modules. However, the current system in which various Managers participate in file reading and writing works well (and the Managers are needed anyway to keep the menu items and list windows current when new data sets are added or read).</p>
+		<h3><img height="31" width="36" src="images/mat.gif" align="top"> Interface <a href="../javadoc/mesquite/lib/characters/MCharactersStatesHolder.html">MCharacterStatesHolder</a></h3>
+		<p>The Interface MCharacterStatesHolder is the base interface for those used to pass most character matrices among calculating modules. (The first letter &quot;M&quot; can be thought of as &quot;Multiple&quot; or &quot;Matrix&quot;.) It and its descendent interfaces are:</p>
+		<ul>
+			<li><b>Interface <a href="../javadoc/mesquite/lib/characters/MCharactersStatesHolder.html">MCharacterStatesHolder</a></b> &#151; Key methods are getNumTaxa, getNumChars, and getCharacterState. Because classes satisfying this interface may be temporary representations of the information in a full-blown CharacterData, they can store the CharacterData which they represent as their &quot;parent data&quot;, obtainable by getParentData.
+			<ul>
+				<li><b>Interface <a href="../javadoc/mesquite/lib/characters/MCharactersDistribution.html">MCharactersDistribution</a></b> &#151; Intended to portray the states in terminal taxa. Can supply CharacterDistributions for single characters, or can supply an &quot;upgraded&quot; version of itself to a full CharacterData via makeCharacterData.
+				<ul>
+					<li><b>Interface <a href="../javadoc/mesquite/libcharacters//MAdjustableDistribution.html">MAdjustableDistribution</a></b> &#151; Allows the matrix to be changed, e.g. the character states to be set via the setCharacterState, tradeStatesBetweenTaxa or transferFrom methods.
+					<ul>
+						<li><b>Interface <a href="../javadoc/mesquite/lib/characters/MCharactersHistory.html">MCharactersHistory</a></b> &#151; Intended to portray the states at all nodes of a tree. Can supply CharacterHistory's for single characters.
+					</ul>
+				</ul>
+			</ul>
+		</ul>
+		<p>The classes implementing these interfaces are descendants of MCharactersStates. Each type of data (e.g., categorical vs. continuous) has its own descendant hierarchy whose members implement the above interfaces.</p>
+		<h3><img height="31" width="36" src="images/mat.gif" align="top"> Class <a href="../javadoc/mesquite/lib/characters/MCharactersStates.html">MCharactersStates</a></h3>
+		<p>This class contains information for a set of character over a set of taxa or nodes, and thus is two dimensional like CharacterData (characters X nodes). At first it may seem a duplicate of CharacterData, but MCharactersStates contains none of the extra information about characters, and the other dimension is best thought of as nodes. Generally, it is used for passing stripped-down data matrices to modules for calculation, or for storage with calculations on trees, much like the old downstate, upstate and finalstate arrays in MacClade. Because it is over multiple characters, it is usually used for calculations involving all characters at once. Thus, in various simulations, reconstructions and other calculations of characters on trees, the class of choice for passing information around are subclasses of MCharactersStates.</p>
+		<p>There are two main subclasses, one (MCharactersDistribution) for the states at each of the terminal taxa, and one (MCharactersHistory) for each of the nodes of a tree. The reason a single 2 dimensional array can be used for the states at all the nodes (instead of requiring special storage attached to each node) is that nodes are simply numbered in <a href="../javadoc/mesquite/lib/Tree.html">Tree</a>'s, and thus the node number is used for the index of one dimension of the array.</p>
+		<p>Many calculations in Mesquite pass character data matrices around via the data type neutral interface MCharactersDistribution.</p>
+		<p>Subclasses exist for different character types (e.g. categorical, continuous). Some current ones are:</p>
+		<p><b>MCharactersStates</b> (implements interface MCharacterStatesHolder)</p>
+		<ul>
+			<li><a href="../javadoc/mesquite/categ/lib/MCategoricalStates.html"><b>MCategoricalStates</b></a> &#151; MCharactersStates for categorical characters
+			<ul>
+				<li><a href="../javadoc/mesquite/categ/lib/MCategoricalDistribution.html"><b>MCategoricalDistribution</b></a> (implements interface MCharactersDistribution)
+				<ul>
+					<li><a href="../javadoc/mesquite/categ/lib/MCategoricalEmbedded.html"><b>MCategoricalEmbedded</b></a> &#151; used as a reference to a matrix in an existing CharacterData object.
+					<ul>
+						<li><a href="../javadoc/mesquite/categ/lib/MDNAEmbedded.html">MDNAEmbedded</a> &#151; subclass for nucleotide data
+						<li><a href="../javadoc/mesquite/categ/lib/MProteinEmbedded.html">MProteinEmbedded</a> &#151; subclass for amino acid data
+					</ul>
+					<li><a href="../javadoc/mesquite/categ/lib/MCategoricalAdjustable.html"><b>MCategoricalAdjustable</b></a> (implements interface MAdjustableDistribution)&#151; usually used for temporarily created characters, such as those coming from a simulation or a reconstruction. Size can be adjusted &amp; states altered.
+					<ul>
+						<li><a href="../javadoc/mesquite/categ/lib/MDNAAdjustable.html">MDNAAdjustable</a> &#151; subclass for nucleotide data
+						<li><a href="../javadoc/mesquite/categ/lib/MProteinAdjustable.html">MProteinAdjustable</a> &#151; subclass for amino acid data
+						<li><a href="../javadoc/mesquite/categ/lib/MCategoricalHistory.html"><b>MCategoricalHistory</b></a> (implements interface MCharactersHistory) &#151; used for categorical states at nodes.
+					</ul>
+				</ul>
+			</ul>
+		</ul>
+		<ul>
+			<li><a href="../javadoc/mesquite/cont/lib/MContinuousStates.html"><b>MContinuousStates</b></a> &#151; MCharactersStates for continuous valued characters
+			<ul>
+				<li><a href="../javadoc/mesquite/cont/lib/MContinuousDistribution.html"><b>MContinuousDistribution</b></a> (implements interface MCharactersDistribution)
+				<ul>
+					<li><a href="../javadoc/mesquite/cont/lib/MContinuousEmbedded.html"><b>MContinuousEmbedded</b></a> &#151; used as a reference to a matrix in an existing CharacterData object.
+					<li><a href="../javadoc/mesquite/cont/lib/MContinuousAdjustable.html"><b>MContinuousAdjustable</b></a> (implements interface MAdjustableDistribution)&#151; usually used for temporarily created characters, such as those coming from a simulation or a reconstruction. Size can be adjusted &amp; states altered.
+					<ul>
+						<li><a href="../javadoc/mesquite/cont/lib/MContinuousHistory.html"><b>MContinuousHistory</b></a> (implements interface MCharactersHistory) &#151; used for continuous valued states at nodes.
+					</ul>
+				</ul>
+			</ul>
+		</ul>
+		<h3>
+		<hr>
+		</h3>
+		<h3>Classes and interfaces for vectors of one character X taxa</h3>
+		<h3><img height="31" width="14" src="images/vec.gif" align="top"> Interface <a href="../javadoc/mesquite/lib/characters/CharacterStates.html">CharacterStatesHolder</a></h3>
+		<p>The Interface CharacterStatesHolder is the base interface for those used to pass most character vectors among calculating modules. It and its descendent interfaces are:</p>
+		<ul>
+			<li><b>Interface <a href="../javadoc/mesquite/lib/characters/CharacterStatesHolder.html">CharacterStatesHolder</a></b> &#151; Key methods are getNumTaxa (and getNumNodes) and getCharacterState. Because classes satisfying this interface may be temporary representations of the information in a full-blown CharacterData, they can store the CharacterData which they represent as their &quot;parent data&quot;, obtainable by getParentData, and the character within that as their &quot;parent character&quot;, obtainable by getParentCharacter.
+			<ul>
+				<li><b>Interface <a href="../javadoc/mesquite/lib/characters/CharacterDistribution.html">CharacterDistribution</a></b> &#151; Intended to portray the states in terminal taxa. Via this interface many modules pass character distribution information to one another for calculations.
+				<ul>
+					<li><b>Interface <a href="../javadoc/mesquite/lib/characters/AdjustableDistribution.html">AdjustableDistribution</a></b> &#151; Allows the character states to be changed, e.g. the character states to be set via the setCharacterState or tradeStatesBetweenTaxa methods.
+					<ul>
+						<li><b>Interface <a href="../javadoc/mesquite/lib/characters/CharacterHistory.html">CharacterHistory</a></b> &#151; Intended to portray the states at all nodes of a tree. Has special methods for returning Colors for use in character tracing displays.
+					</ul>
+				</ul>
+			</ul>
+		</ul>
+		<p>The classes implementing these interfaces are descendants of CharacterStates. Each type of data (e.g., categorical vs. continuous) has its own descendant hierarchy whose members implement the above interfaces.</p>
+		<h3><img height="31" width="14" src="images/vec.gif" align="top"> <a href="../javadoc/mesquite/lib/characters/CharacterStates.html">CharacterStates</a></h3>
+		<p>Subclasses of CharacterStates represent a vector of character states in a series of taxa or nodes. The subclasses are:</p>
+		<p><b>CharacterStates</b> (implements interface CharacterStatesHolder)</p>
+		<ul>
+			<li><a href="../javadoc/mesquite/categ/lib/CategoricalStates.html"><b>CategoricalStates</b></a> &#151; CharacterStates for categorical characters
+			<ul>
+				<li><a href="../javadoc/mesquite/categ/lib/CategoricalDistribution.html"><b>CategoricalDistribution</b></a> (implements interface CharacterDistribution)
+				<ul>
+					<li><a href="../javadoc/mesquite/categ/lib/CategoricalEmbedded.html"><b>CategoricalEmbedded</b></a> &#151; used as a reference to a character within an existing CharacterData object.
+					<ul>
+						<li><a href="../javadoc/mesquite/categ/lib/DNAEmbedded.html">DNAEmbedded</a> &#151; subclass for nucleotide data
+						<li><a href="../javadoc/mesquite/categ/lib/ProteinEmbedded.html">ProteinEmbedded</a> &#151; subclass for amino acid data
+					</ul>
+					<li><a href="../javadoc/mesquite/categ/lib/CategoricalAdjustable.html"><b>CategoricalAdjustable</b></a> (implements interface AdjustableDistribution)&#151; usually used for temporarily created characters, such as those coming from a simulation or a reconstruction. Size can be adjusted &amp; states altered.
+					<ul>
+						<li><a href="../javadoc/mesquite/categ/lib/DNACharacterAdjustable.html">DNACharacterAdjustable</a> &#151; subclass for nucleotide data
+						<ul>
+							<li><a href="../javadoc/mesquite/categ/lib/RNACharacterAdjustable.html">RNACharacterAdjustable</a> &#151; subclass for nucleotide data
+						</ul>
+						<li><a href="../javadoc/mesquite/categ/lib/ProteinAdjustable.html">ProteinAdjustable</a> &#151; subclass for amino acid data
+						<li><a href="../javadoc/mesquite/categ/lib/CategoricalHistory.html"><b>CategoricalHistory</b></a> (implements interface CharacterHistory) &#151; used for categorical states at nodes.
+						<ul>
+							<li><a href="../javadoc/mesquite/categ/lib/DNACharacterHistory.html">DNACharacterHistory</a> &#151; subclass for nucleotide data
+							<ul>
+								<li><a href="../javadoc/mesquite/categ/lib/RNACharacterHistory.html">RNACharacterHistory</a> &#151; subclass for nucleotide data
+							</ul>
+							<li><a href="../javadoc/mesquite/categ/lib/ProteinCharacterHistory.html">ProteinCharacterHistory</a> &#151; subclass for amino acid data
+						</ul>
+					</ul>
+				</ul>
+			</ul>
+			<li><a href="../javadoc/mesquite/cont/lib/ContinuousStates.html"><b>ContinuousStates</b></a> &#151; CharacterStates for continuous valued characters
+			<ul>
+				<li><a href="../javadoc/mesquite/cont/lib/ContinuousDistribution.html"><b>ContinuousDistribution</b></a> (implements interface CharacterDistribution)
+				<ul>
+					<li><a href="../javadoc/mesquite/cont/lib/ContinuousEmbedded.html"><b>ContinuousEmbedded</b></a> &#151; used as a reference to a character within an existing CharacterData object.
+					<li><a href="../javadoc/mesquite/cont/lib/ContinuousAdjustable.html"><b>ContinuousAdjustable</b></a> (implements interface AdjustableDistribution)&#151; usually used for temporarily created characters, such as those coming from a simulation or a reconstruction. Size can be adjusted &amp; states altered.
+					<ul>
+						<li><a href="../javadoc/mesquite/cont/lib/ContinuousHistory.html"><b>ContinuousHistory</b></a> (implements interface CharacterHistory) &#151; used for continuous valued states at nodes.
+					</ul>
+				</ul>
+			</ul>
+		</ul>
+		<h3>
+		<hr>
+		</h3>
+		<h3>Classes and interfaces for character state of one character X one taxon (or node)</h3>
+		<h3><img height="10" width="14" src="images/scal.gif" align="top"> <a href="../javadoc/mesquite/lib/characters/CharacterState.html">CharacterState</a><a href="../javadoc/mesquite/lib/characters/CharacterState.html">e</a></h3>
+		<p>A CharacterState object contains the state of a single character in a single taxon. There are methods to set it, write it as a string, set its values according to a String, query whether it is unassigned, and so on. The details as to what exactly is stored depends on the data type. CategoricalState objects thus store a <u>long</u> representing a state set. ContinuousState objects store an array of <u>double</u>s for the items representing its state (e.g., mean, variance).</p>
+		<p>CharacterState objects are a datatype independent way that information can be extracted from matrices and passed around. Two of the standard subclasses are:</p>
+		<p><b>CharacterState</b></p>
+		<ul>
+			<li><a href="../javadoc/mesquite/categ/lib/CategoricalState.html">CategoricalState</a> &#151; the state of a categorical character. Categorical characters have a series of alternative states. Sets of states were stored in MacClade 3 as Pascal sets or C bit fields, and state set operations were done with bitwise ANDs and ORs, etc. In Mesquite, they are stored as <u>long</u> primitives, and thus can handle over 60 character states. The maximum value for a state is currently 56. This allows bits 57-63 to be used as special flags. Bit 63 indicates the state is unassigned. Bit 62 indicates the state is invalid (&quot;impossible&quot;). Bit 61 indicates the state is uncertain (as opposed to polymorphic). Bit 60 indicates the state is to be represented as a string with lower case symbols. An entirely empty set (0L) is interpreted as inapplicable (i.e., a gap). CategoricalState can be instantiated to hold a categorical state set, but it also provides static methods for manipulating these state sets in a bitwise way.
+			<li><a href="../javadoc/mesquite/cont/lib/ContinuousState.html">ContinuousState</a> &#151; the state of a continuous-valued character. Allows for multiple items (e.g., mean, variance, sample size), corresponding to ITEMS in the NEXUS file format for continuous characters. ContinuousState objects hold an array of up to 32 items.
+		</ul>
+		<p>
+		<hr size="6">
+		</p>
+		<h3>Colors of states</h3>
+		<p>General systems for defining color for states are not yet settled. Colors/patterns are needed for character tracing, for filling cells of the matrix, and possibly for charts or other purposes. Currently, methods in CharacterHistory are used for tracing. Thus, for the CharacterHistory object of reconstructed states, the method prepareColors is first called, which surveys to accumulate information about what states are present across nodes. Then getColorsAtNode finds the colors at a node according to its states, and getLegendStates to find the colors and names to put in the legend. Methods in CharacterData are used for coloring cells in the matrix. The reason CharacterHistory is used for tracing is that it knows all the states it has at its nodes (its CharacterData object might not). The reason CharacterData is used for matrix cells is that the Data Windows use CharacterData objects. In the future it would be good to have color control centralized, perhaps in a CharacterData object, and when it needs to help with a tracing, its methods are passed the CharacterHistory object.</p>
+		<p>One complication with coloring states is that several options might be chosen for the span of colors that is chosen for a single character:</p>
+		<ol>
+			<li>Use a fixed scale of 0 to maximum state conceivable (e.g., for DNA data), and use same colors regardless of the states present in the particular character
+			<li>Use a scale of min-max observed in the character in the data matrix (not necessarily in the reconstruction, which might be on a tree with taxa trimmed).
+			<li>Use a scale of min-max in the character reconstruction
+			<li>Use any of the above scales, but avoid assigning white and black as colors
+		</ol>
+		<p>Choice 1 could be used to trace DNA data on trees. Choices 2 and 3 might be used for non-nucleotide data in tracing characters. Choice 4 might be used to color cells in a matrix, so that the strings describing the states could still be observed despite the coloring.</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1999-2005</p> 
+<p>
+	</body>
+
+</html>

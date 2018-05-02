@@ -1,0 +1,106 @@
+<!--This file created 4.4.99 11:26 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Module Documentation</title>
+		<x-sas-window top="60" bottom="669" left="154" right="799">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="architecture.html">Modular architecture</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="modules.html">Modules: subclasses of MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="employing.html">Modules employing other modules</a><br>
+											<img height="12" width="7" src="../images/raindrop.gif"> <a href="duty_classes.html">Duty Classes</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingModules.html">Writing modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="moduleDocumentation.html">Documentation for particular modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingPackages.html">Packages of Modules</a><br>
+											Also: <img height="12" width="7" src="../images/leaftip.gif"> <a href="../../howMesquiteWorks.html">User's introduction to modularity</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteModule.html">MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="../exampleModule/exampleIntro.html">Example Module</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Documentation about modules</h2>
+		
+<p>(updated August 2005)</p>
+		<p>Particular modules may have their own manuals, and in addition the Mesquite system <a href="../autoDocumentation.html">composes documentation automatically</a> by harvesting information from the modules and composing web pages. With a few exceptions, this documentation is not linked from these web pages, but rather from places in Mesquite while it is running.</p>
+		
+<ul>
+  <li><u><b>Manuals for packages of modules</b></u> &#151; Sets of modules may 
+    be distributed as a <a href="makingPackages.html">package</a>, and the suggested 
+    way for a package to announce itself and present its documentation is by including 
+    a banner in the startup window of Mesquite and a web page introducing the 
+    package. The banner will appear for a module if an image file named &quot;splash.gif&quot; 
+    is included in the module's directory. If you touch on the banner in the startup 
+    window, Mesquite will take you to the web page &quot;splash.html&quot; within 
+    the module's directory if such a file exists. This splash web can serve as 
+    an entry for a manual.
+  <li><u><b>Module information pages</b></u> &#151; Mesquite <a href="../autoDocumentation.html">automatically 
+    composes</a> a web page for each module, summarizing its version, authors, 
+    and the scripting commands the module accepts and possibly its menu items. 
+    It composes these pages the first time you choose one of the menu items that 
+    takes you to a web page, for instance <b>Menu &amp; Control Explanations</b> 
+    from the <b>Windows</b> menu, or the <b>Modules Installed</b> or <b>Scripting 
+    Commands</b> menu items in the Help menu. These module information pages will 
+    be linked from: 
+    <ul>
+      <li>the page summarizing installed modules (available by selecting <b>Modules 
+        Installed</b> in Help menu of Mesquite) 
+      <li>the buttons showing the names of modules, in the views of employee trees 
+        for currently running modules (available by selecting Active Modules in 
+        the Help menu of Mesquite or by touching on the Tree of Modules button 
+        of the <a href="../windowInfoBar.html">window information bar</a>). 
+    </ul>
+</ul>
+		<p>The documentation listed above gives information about the classes of modules, but not about a particular instantiation of a module. There are sources of information about a current instantiation of a module:</p>
+		
+<ul>
+  <li><u><b><a href="../windowInfoBar.html">Information Bar of Window</a></b></u> 
+    &#151; The tabs at the tops of many windows take you to information about 
+    the current contents of the window (Text), the parameters of the running modules, 
+    a summary of the running modules involved in the window, and citations for 
+    the modules.. 
+</ul>
+		<p>[UNDER CONSTRUCTION]</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 2005
+</body>
+
+</html>

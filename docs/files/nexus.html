@@ -1,0 +1,88 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>NEXUS files</title>
+	</head>
+
+	<body bgcolor="#ffcc99">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="../modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										
+                <td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> 
+                  <a href="files.html">Introduction to Projects &amp; Files</a> 
+                  <img height="12" width="7" src="../images/raindrop.gif"> <a href="nexus.html">Reading 
+                  and Writing NEXUS files</a>
+											<img height="12" width="7" src="../images/raindrop.gif"> <a href="Preferences.html">Saving preferences</a>  <br>Also: <img height="12" width="7" src="../images/leaftip.gif"> <a href="../commands/snapshots.html">Saving the current state (snapshots)</a> <img height="12" width="7" src="../images/leaftip.gif"> <a href="../../projectsFiles.html">User's introduction to projects and files</a><br>
+											<img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteProject.html">MesquiteProject</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteFile.html">MesquiteFile</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/FileElement.html">FileElement</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Reading and writing NEXUS files</h2>
+		
+<p>(updated August 2005)</p>
+		
+<p>The <a href="#ref">NEXUS</a><a name="nexus"></a> file format is the format supported fully
+   by Mesquite at present.  Other file formats can be imported and exported.</p>
+		<h3>Reading: decomposing the NEXUS file into commands and blocks</h3>
+		<p>The MesquiteFile class has methods to help parse a NEXUS file, returning the file block by block and command by command. These methods parse the file using the definitions of tokens, commands and blocks in the NEXUS standard. The module that makes use of these methods is currently the InterpretNEXUS module. It receives each block, and determines which module can read it.</p>
+		<h3>Determining which modules can read NEXUS blocks</h3>
+		<p>When Mesquite starts up it queries each module to return (if it desires) an object of the class <a href="../javadoc/mesquite/lib/NexusBlockTest.html">NexusBlockTest.</a> Mesquite stores such objects associated with a record of the information about each module. When file reading, the InterpretNEXUS module first queries all currently instantiated modules (in the employee tree) to see if they can read a particular NEXUS block. It does this by passing the block name and the entire block to the method readsWritesBlock of the NexusBlockTest object. If the method returns true, the block is passed to the module for processing.</p>
+		<p>The module, after processing the block, returns an object of class NexusBlock. A list of NexusBlocks is stored in association with each file, so that when the file is rewritten, the system knows what components to write to the file. (Also, outside of the context of file reading, modules can invent NexusBlocks and register them as associated with a file, so that they will later be represented by a block of text when the file is written.)</p>
+		<p>If, after querying all instantiated modules, no reader for a block is found, InterpretNEXUS then examines the records for available but uninstantiated modules, calling the readsWritesBlock of any NexusBlockTests it finds. If it finds one that claims to read it, it hires the module and sends it the block to be read.</p>
+		<h3>Manager modules</h3>
+		<p>A series of special modules important in file reading and writing are the Managers. These include ManageTaxa, ManageCharacters, ManageTrees, and so on. Each one reads or coordinates the reading and writing of a major block in a NEXUS file, and manages the objects that each block creates (Taxa, CharacterData, TreeVector, and so on).</p>
+		<h3>Determining which modules can read NEXUS commands within a block</h3>
+		<p>Some blocks in a NEXUS file are heterogeneous in composition. For instance, an ASSUMPTIONS block might contain stepmatrices, model sets, probability models, and so on. Each is defined by a particular command. What commands it might contain are not fixed at present: if new sorts of calculations are invented, they might need a new sort of command in the ASSUMPTIONS block. The Manager of the ASSUMPTIONS block must therefore find modules to read each command. It does this somewhat as does InterpretNEXUS for blocks. ManageAssumptionsBlock uses the objects of class <a href="../javadoc/mesquite/lib/NexusCommandTest.html">NexusCommandTest</a> returned by modules during Mesquite startup to determine which modules can read a particular command.</p>
+		<h3>File Writing</h3>
+		<p>To write a NEXUS file, the InterpretNEXUS module cycles through the NexusBlock objects associated with the file. Each such object has a method that returns the text of the block (typically, the object knows what module manages it and asks the module to compose the text of the block on demand). Some modules, like the one managing the ASSUMPTIONS block, compose their blocks by harvesting commands by calling the getNexusCommands method of other modules.</p>
+		<p>
+		<hr>
+		</p>
+		<p><a name="ref"></a><a href="#nexus">^</a> Maddison, D.R., D.L. Swofford, and W.P. Maddison. 1997. NEXUS: An extensible file format for systematic information. Systematic Biology 46: 590-621
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1999-2005 
+<p>
+	</body>
+
+</html>

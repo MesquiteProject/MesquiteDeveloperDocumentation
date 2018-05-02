@@ -1,0 +1,71 @@
+<!--This file created 4.4.99 11:51 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Numbers</title>
+		<x-sas-window top="55" bottom="733" left="307" right="837">
+	</head>
+
+	<body bgcolor="#ffcc99">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="images/raindrop.gif"> <a href="Utilities.html">Utility classes and interfaces</a> <img height="12" width="7" src="images/raindrop.gif"> <a href="Numbers.html">Numbers</a> <img height="12" width="7" src="images/raindrop.gif"> <a href="strings.html">Strings</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Numbers</h2>
+		<p>(February 2001)</p>
+		<div align="left">
+			<p>Mesquite provides utility classes for dealing with numbers. Some, such as <a href="javadoc/mesquite/lib/MesquiteInteger.html">MesquiteInteger</a>, <a href="javadoc/mesquite/lib/MesquiteLong.html">MesquiteLong</a> and <a href="javadoc/mesquite/lib/MesquiteDouble.html">MesquiteDouble</a>, are basically wrapper classes to allow the equivalent of a VAR parameter to be passed and its content changed by a method. They also provide various helping methods concerning minimum, maximum, String reading and writing, and so on. MesquiteDouble provides String output with more flexibility than the standard Double class.</p>
+			<p>For int, long and double variable types Mesquite defines some constant values to signify &quot;unassigned&quot;, &quot;infinity&quot;, &quot;negative infinity&quot;, and &quot;impossible&quot;. These constants are in the respective wrapper classes <a href="javadoc/mesquite/lib/MesquiteInteger.html">MesquiteInteger</a>, <a href="javadoc/mesquite/lib/MesquiteLong.html">MesquiteLong</a> and <a href="javadoc/mesquite/lib/MesquiteDouble.html">MesquiteDouble.</a></p>
+			<p>The <a href="javadoc/mesquite/lib/MesquiteNumber.html">MesquiteNumber</a> class is a special class to hold numerical information without specifying type (integer, long or double). It has storage for each, and by default stores as integer (hence, with full precision). If operations involve long or doubles, the storage gets &quot;upgraded&quot; accordingly. Many Mesquite calculations use MesquiteNumbers (or the corresponding NumberArray or Number2DArray) to avoid locking in to a particular numerical storage type.</p>
+			<p>Some related classes are available for arrays. For one-dimensional arrays, use <a href="javadoc/mesquite/lib/NumberArray.html">NumberArray,</a> <a href="javadoc/mesquite/lib/LongArray.html">LongArray</a> and <a href="javadoc/mesquite/lib/DoubleArray.html">DoubleArray</a>. For two-dimensional arrays, use <a href="javadoc/mesquite/lib/Number2DArray.html">Number2DArray,</a> <a href="javadoc/mesquite/lib/Long2DArray.html">Long2DArray</a> and <a href="javadoc/mesquite/lib/Double2DArray.html">Double2DArray</a>.</p>
+		</div>
+		<p>
+		<hr>
+		&copy; W. Maddison &amp; D. Maddison 1999-2001</p>
+		<p>
+	</body>
+
+</html>

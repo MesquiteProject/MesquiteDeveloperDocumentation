@@ -1,0 +1,124 @@
+<!--This file created 4.4.99 11:28 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Macros</title>
+		<x-sas-window top="144" bottom="746" left="4" right="841">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="../modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="commands.html"><font color="#330099">Commands</font></a><a href="../modularity/duty_classes.html"><font color="#330099"> &amp; Scripting</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="commands.html">Commands</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="scripting.html">Scripting</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="snapshots.html">Snapshots</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="macros.html">Macros</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="cloning.html">Cloning windows</a><br>
+											Also: <img height="12" width="7" src="../images/leaftip.gif"> <a href="../../ScriptingMesquite.html">User's guide to scripting language</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteCommand.html">MesquiteCommand</a> <img height="12" width="7" src="../images/jdoc.gif"> interface <a href="../javadoc/mesquite/lib/Commandable.html">Commandable</a><br>
+											<img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/CommandChecker.html">CommandChecker</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/Snapshot.html">Snapshot</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/Puppeteer.html">Puppeteer</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Macros</h2>
+		
+<p>(updated August 2005)</p>
+<p>Mesquite scripts, if stored in files in the appropriate places in the mesquite 
+  directory, are accessible from menus while Mesquite is running. They are therefore 
+  generally available as macros. </p>
+		
+<p>Eventually, we imagine that such macros could appear throughout Mesquite's 
+  menus as if they were alternatives to modules and other commands. At the moment, 
+  however, they appear in only a few places in the menu: </p>
+<ul>
+  <li>Macros created for a style of tree drawing appear in the tree window's Drawing 
+    menu under <strong>Macros for Tree Drawing</strong></li>
+  <li>Macros that make charts and so on appear under Analysis in <strong>Macros 
+    Making Windows</strong></li>
+  <li>Other macros are listed in the <strong>Macros</strong> submenu of the Window 
+    menu.</li>
+</ul>
+<p>Currently available macros can be seen in the Macros submenu of the File menu.</p>
+<h3>Composition of macro</h3>
+		<p>A macro indicates to what it applies by a &quot;telling&quot; command at its start.  For instance, a macro that is intended to command a Tree Window (and which therefore should appear when the Tree Window is in front), should begin either with the line:</p>
+		<pre>
+      telling TreeWindowMaker;</pre>
+		<p>or with the line</p>
+		<pre>
+      telling BasicTreeWindowMaker;</pre>
+		<p>The latter is a subclass of the former.</p>
+		<h3>Example macro</h3>
+		<p>Here is a simple macro that is available when the tree window is in front.  It brings up a mirror tree window and traces two characters, one left and one right:</p>
+		<pre>
+telling TreeWindowMaker;<br>
+getWindow;<br>
+tell It;<br>
+	  newWindowAssistant  #MirrorTreeWindowMaker;<br>
+	  tell It;<br>
+	    	getWindow;<br>
+	    	tell It;<br>
+	      		newAssistantLeft #TraceCharacterHistory;<br>
+		       tell It;<br>
+			         setHistorySource  #RecAncestralStates;<br>
+		      	   tell It;<br>
+			        	  	setMethod  #ParsAncestralStates;<br>
+			      	  endTell;<br>
+			      	  setCharacter 1;<br>
+			      endTell;<br>
+	      		newAssistantRight #TraceCharacterHistory;<br>
+		       tell It;<br>
+			         setHistorySource  #RecAncestralStates;<br>
+		      	  	tell It;<br>
+			        	  	setMethod  #ParsAncestralStates;<br>
+			      	  endTell;<br>
+			      	  setCharacter 2;<br>
+			      endTell;<br>
+			showWindow;<br>
+		endTell;<br>
+	endTell;<br>
+endTell;</pre>
+		<p>Because of the availability of varying querying commands (see the Scripting Commands page available from the Help menu while Mesquite is running), macros can query the user for information as they are being executed.</p>
+		<h3>Placement of macro files</h3>
+		<p>A macro file, to be found by Mesquite, must occur in a directory called &quot;macros&quot; somewhere within the mesquite directory.  If the macros directory is within a folder named &quot;lib&quot; or &quot;duties&quot; or &quot;docs&quot; or &quot;documentation&quot;, it won't be found.  It may be within a folder for one of the installed packages.</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 2001 -2005 
+</body>
+
+</html>

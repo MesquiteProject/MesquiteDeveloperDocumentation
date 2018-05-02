@@ -1,0 +1,91 @@
+<!--This file created 12/27/98 10:57 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Preferences</title>
+		<x-sas-window top="47" bottom="762" left="161" right="691">
+	</head>
+
+	<body>
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="../modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="files.html">Introduction to Projects &amp; Files</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="nexus.html">Reading and Writing NEXUS files</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="Preferences.html">Saving preferences</a><br>
+											Also: <img height="12" width="7" src="../images/leaftip.gif"> <a href="../commands/snapshots.html">Saving the current state (snapshots)</a> <img height="12" width="7" src="../images/leaftip.gif"> <a href="../../projectsFiles.html">User's introduction to projects and files</a><br>
+											<img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteProject.html">MesquiteProject</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteFile.html">MesquiteFile</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/FileElement.html">FileElement</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Preferences</h2>
+		
+<p>(Updated August 2005)</p>
+		<p>Mesquite modules can save and load preferences using some methods of MesquiteModule.</p>
+		
+<p><b>Note</b>: preferences are used by few modules at present (e.g., the Mesquite 
+  trunk module, ManagePAUP), and the system is not easy enough to use. For instance, 
+  it may be better to base the preferences on NEXUS formatted text commands, and 
+  have the preferences system use the doCommand method. Also, there is not a single 
+  easy way for a module to have a UI to set preferences. Because it would be too 
+  cluttering for each module participating in a calculation to request a menu 
+  item by which to set preferences, it will be useful to design a single preferences 
+  window with panels for the different modules involved in a window's calculations.</p>
+		<h3>Writing</h3>
+		
+<p>A module calls &quot;storePreferences()&quot; when it wants to store its preferences. 
+  Mesquite then prepares a file &quot;prefs&quot; in the module's directory. Mesquite 
+  calls the methods preparePreferencesForFile() method, which is to return a String 
+  array containing the module's preferences, and this String array is written 
+  into the file.</p>
+		<h3>Reading</h3>
+		
+<p>A module calls &quot;loadPreferences&quot; when it wants to read its preferences 
+  (e.g., in startJob). In response, Mesquite reads the module's pref file and 
+  passes the contents as a String to the modules &quot;processPreferencesFromFile&quot; 
+  method. For an example, see mesquite.minimal.BasicFileCoordinator.BasicFileCoordinator.java.</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1998-2005</p> 
+<p>&nbsp;
+	</body>
+
+</html>

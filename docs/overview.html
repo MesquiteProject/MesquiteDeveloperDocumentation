@@ -1,0 +1,101 @@
+<!--This file created 4.4.99 12:05 PM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Mesquite development</title>
+		<x-sas-window top="45" bottom="691" left="55" right="864">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center" bgcolor="#66ff66"><a href="Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="images/raindrop.gif"> <a href="Mesquite_development.html"><font color="#330099">Table of Contents</font></a> <img height="12" width="7" src="images/raindrop.gif"> <a href="overview.html"><font color="#330099">Overview</font></a> <img height="12" width="7" src="images/raindrop.gif"> <a href="issues.html"><font color="#330099">To Do: issues and problems</font></a> <img height="12" width="7" src="images/leaftip.gif"> <a href="../manual.html">Home page of user's manual</a><br>
+											<img height="12" width="7" src="images/leaftip.gif"> <a href="../howMesquiteWorks.html">User's introduction to how Mesquite works</a> <img height="12" width="7" src="images/leaftip.gif"> <a href="javadoc/index.html">Classes and Interfaces (javadoc output)</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Overview of Mesquite development</h2>
+		
+<p>W. Maddison (updated May 2006)</p>
+<p><b>Mesquite</b> consists of <a href="javadoc/index.html">class libraries</a> 
+  that define the basic architecture, and <a href="modularity/architecture.html">modules</a> 
+  that perform calculations and report the results to the user. It is written 
+  in <a href="http://java.sun.com">Java</a>. The page on <a href="http://mesquiteproject.org/mesquite/download/source.html">source 
+  code</a> also includes a description of how to prepare an Eclipse workspace 
+  for Mesquite development.</p>
+		
+<p><b>Modularity</b> is an inescapable theme with Mesquite. Data, analyses, windows, 
+  menus, and other aspects of Mesquite are all under the control of a team of 
+  cooperating modules. Because the set of modules installed and in use at any 
+  one time may vary, many aspects of Mesquite from available options to menu structure 
+  to documentation cannot be fixed, but depend on what modules are involved. This 
+  allows for great flexibility, but puts challenges on the architecture of the 
+  system for which the developer should be prepared. For a basic introduction 
+  to Mesquite's modular architecture, see <a href="../howMesquiteWorks.html">how 
+  Mesquite works</a>. For a more in-depth presentation for developers, see the 
+  page on Mesquite's <a href="modularity/architecture.html">modular architecture</a>.</p>
+<p>In general, the easiest way to write modules is to find a module that does 
+  an analogous task, copy the code and modify it. </p>
+		<p>Some of the notable features of the Mesquite system are:</p>
+		<ul>
+			
+  <li><b>Modules</b>: are subclasses of <a href="modularity/modules.html">MesquiteModule</a> 
+    (<a href="javadoc/mesquite/lib/MesquiteModule.html">javadoc version</a>). They are 
+    not simply &quot;plugins&quot; that attach individually to some large mother 
+    program. Rather, the modules cooperate with each other, like building blocks, 
+    to perform tasks. New modules can contribute entirely new (and unanticipated) 
+    functions to Mesquite. Active modules are linked to one another in the form 
+    of a tree, with the Mesquite trunk module acting as the root to initiate Mesquite. 
+    Modules hire other modules to perform tasks, and thus the tree represents 
+    (in a sense) a corporate hierarchy.
+  <li><b>Interchangeable parts</b>: Modules are grouped by &quot;<a href="modularity/duty_classes.html"><font color="#330099">duties</font></a>&quot; that they promise to perform, and in many calculations different modules can be used to perform the same duty, with different results. Thus, many different modules can produce a number for a tree, and by employing different ones of these modules, a chart can display many different results. For a basic introduction to duties, see <a href="../howMesquiteWorks.html">how Mesquite works</a>.
+			<li><b>Scripting</b>: Many of the user-interface commands in Mesquite use, internally, a scripting language. This scripting language is accessible to users who can write scripts to run Mesquite automatically via the <a href="javadoc/mesquite/lib/Puppeteer.html">Puppeteer</a> class. For an introduction as to how to script Mesquite, see the user's guide to <a href="../ScriptingMesquite.html">scripting</a>. The same scripting system is used by Mesquite in saving files and cloning windows (modules and windows can return <a href="javadoc/mesquite/lib/Snapshot.html">Snapshots</a> of the scripting commands needed to return them to their current state).
+			<li><b>Auto-documentation</b>: the methods of the <a href="javadoc/mesquite/lib/commandchecker.html">CommandChecker</a> class help to build documentation of commands, modules, menus and controls while Mesquite is running. This not only gives the user an up-to-date and pertinent manual for the system as it stands at the moment, but also allows developers to embed much of their documentation within the source code of the modules.
+		</ul>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1999-2006
+</body>
+
+</html>

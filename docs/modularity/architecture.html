@@ -1,0 +1,272 @@
+<!--This file created 4.4.99 11:26 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Mesquite modular architecture</title>
+		<x-sas-window top="60" bottom="669" left="154" right="799">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="architecture.html">Modular architecture</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="modules.html">Modules: subclasses of MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="employing.html">Modules employing other modules</a><br>
+											<img height="12" width="7" src="../images/raindrop.gif"> <a href="duty_classes.html">Duty Classes</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingModules.html">Writing modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="moduleDocumentation.html">Documentation for particular modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingPackages.html">Packages of Modules</a><br>
+											Also: <img height="12" width="7" src="../images/leaftip.gif"> <a href="../../howMesquiteWorks.html">User's introduction to modularity</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteModule.html">MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="../exampleModule/exampleIntro.html">Example Module</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Introduction to Mesquite's modular architecture</h2>
+		
+<p>(updated August 2005)</p>
+		<p>The Mesquite system includes the basic <b>class libraries</b> (primarily in the package mesquite.lib), and a series of <b>modules</b> (subclasses of mesquite.lib.MesquiteModule). While the basic library includes many classes that serve as windows, user interface objects, and so on, perhaps the dominant theme of Mesquite's architecture is the interaction of the modules. The modules serve as the primary organizers in Mesquite. The modules may not themselves perform all calculations and control all user interface elements, but when they don't, they at least supervise the objects that do. This page has three parts:</p>
+		<ul>
+			<li><a href="#modules">Modules and the employee tree</a>
+			<li><a href="#benefits">Benefits of modularity</a>
+			<li><a href="#challenges">Challenges of modularity</a>
+		</ul>
+		<p>A simple introduction to Mesquite modularity, intended for users, is given at <a href="../../howMesquiteWorks.html">How Mesquite works.</a></p>
+		<p>
+		<hr>
+		</p>
+		<h3><a name="modules"></a>Modules and the Employee Tree</h3>
+		
+<p>All <a href="modules.html">modules</a> are subclasses of the class <a href="../javadoc/mesquite/lib/MesquiteModule.html">MesquiteModule</a>. 
+  The core application that gets Mesquite up and running is itself a subclass 
+  of MesquiteModule, and thus the core application is also a module. It is mesquite.Mesquite, 
+  a subclass of <a href="../javadoc/mesquite/lib/MesquiteTrunk.html">MesquiteTrunk</a>.</p>
+		
+<p>When the core Mesquite module (the &quot;trunk&quot;) starts up, it finds all 
+  of the available modules by looking into the subdirectories of the <b>Mesquite_Folder/mesquite</b> 
+  directory. (To be found, a module must have the same name as the directory in 
+  which it resides, e.g. BeanCounter.class would have to be within the a directory 
+  &quot;BeanCounter&quot;.) Mesquite temporarily instantiates each of the MesquiteModule 
+  classes. From each, it gathers information, including its name and the precise 
+  subclass of MesquiteModule it represents. This information is stored in a special 
+  vector.</p>
+		
+<p>Modules are &quot;hired&quot; by other modules as employees to perform certain 
+  tasks. Typically a module will decide whether to hire a prospective employee 
+  module according to the particular subclass the module belongs to. These subclasses 
+  are referred to as <a href="duty_classes.html">duty classes</a>, since each 
+  subclass represents a particular job or duty and employee could perform. For 
+  instance, one subclass of MesquiteModule is <a href="../javadoc/mesquite/lib/Duties/DrawTree.html">DrawTree</a>, 
+  which extends the base class MesquiteModule in having a method createTreeDrawing(), 
+  which returns a special tree drawing object. The module responsible for the 
+  tree window hires a module that coordinates tree drawing, which in turn looks 
+  for a DrawTree module. There may be multiple DrawTree modules available -- one 
+  may make square trees (&quot;phenograms&quot;), another diagonal trees (&quot;cladograms&quot;), 
+  another circular trees, another may plot the nodes of the tree in a three dimensional 
+  space, and so on. The fact that a module is a subclass of DrawTree guarantees 
+  to any employer that it will perform a task in a predictable way (that is, it 
+  will have the appropriate methods). The coordinating module could choose any 
+  of these to hire. The DrawTree module chosen in turn might hire a module to 
+  help it assign node locations.</p>
+<p><b>An example</b> &#151; For instance, at one point while Mesquite is running, 
+  the employee tree for the basic tree window module might look as follows:</p>
+		<pre>
+Basic Tree Window Maker
+  Basic Tree Draw Coordinator
+      Diagonal tree
+          Node Locations (standard)
+      Basic Draw Taxon Names
+  Stored Trees
+  Trace Character
+      Stored Characters
+      Parsimony Ancestral States
+          Parsimony Irreversible
+          Parsimony Linear
+          Parsimony Ordered
+          Parsimony Unordered
+      Shade states</pre>
+		
+<p>In this example, the module <b>Basic Tree Window Maker</b> has three employees: 
+  <b>Basic Tree Draw Coordinator</b>, <b>Stored Trees</b>, and <b>Trace Character</b>. 
+  The first takes care of drawing the tree, the second supplies a tree for the 
+  tree window. The third, <b>Trace Character</b>, is active because the user has 
+  requested it to trace a character on the tree. In response to the request, the 
+  tree window module hired it as an employee. The <b>Basic Tree Draw Coordinator</b> 
+  has two employees, <b>Diagonal Tree</b> (which draws &quot;cladogram&quot; shaped 
+  trees) and <b>Basic Draw Taxon Names</b>. <b>Trace Character</b> has three employees, 
+  <b>Stored Characters</b> (which supplies characters from a data matrix in a 
+  file), <b>Parsimony Ancestral States</b> (which reconstructs states at the nodes), 
+  and <b>Shade states</b> (which colors the branches to reflect the reconstructed 
+  states).</p>
+		
+<p>Each module has only one employer. Modules therefore cooperate in a tree-like 
+  arrangement of employees. The root or trunk of the whole tree is the core Mesquite 
+  class which is a subclass of <a href="../javadoc/mesquite/lib/MesquiteTrunk.html">MesquiteTrunk</a> 
+  which is a subclass of MesquiteModule. Each instance of a module is a branch 
+  in this tree of employees. </p>
+<p>Although modules claim to perform duties such as tree drawing, the module classes 
+  themselves do not need to perform these duties: the tree drawing, phylogenetic 
+  calculations and so forth can and probably should generally be performed by 
+  non-module objects that the modules instantiate. Thus the modules primarily 
+  serve to provide the lines of communication and the organization of the user 
+  interface, and hence serve as the administrative scaffolding to the system. 
+  (Actually, at present many key calculations are done within the module classes, 
+  but that might best be changed for future efforts in parallelization.)</p>
+<p>Politeness is expected but not enforced. That is, a module is expected to call 
+  the methods of its employees, but only in a few cases should it call the methods 
+  of its employer or modules that aren't its employees. Modules can and do call 
+  others' methods for information (e.g. get... methods), however, but in general 
+  they should not call methods to manipulate their employers, or to manipulate 
+  employees of other modules (e.g. set... methods). Exceptions to this include 
+  the notifying methods (e.g. parametersChanged) which indirectly call an employer's 
+  methods so as to manipulate the employer's behaviour.</p>
+<p>Typically there will be alternative modules to perform any given task, and thus if some modules fire the employees they have and hire some alternatives, we might arrive at the following:</p>
+		<pre>
+
+Basic Tree Window Maker
+  Basic Tree Draw Coordinator
+      Basic Draw Taxon Names
+      Circular tree
+          Node Locations (circle)
+  Simulated Trees
+      Harding Branching
+  Trace Character
+      Parsimony Ancestral States
+          Parsimony Irreversible
+          Parsimony Linear
+          Parsimony Ordered
+          Parsimony Unordered
+      Simulated Characters
+          Simple evolve characters
+          Tree of context
+      Label sets</pre>
+		<p>The tree drawing module is now <b>Circular tree</b>. The source of trees is no longer <b>Trees from file</b>, but now <b>Simulate Tree</b>, which in turn hires tree simulating modules to supply trees. <b>Trace Character</b> is no longer using <b>Data Set</b> to get data from a file, but rather is using as its character source <b>Simulate Characters</b>, which in turn hires modules to simulate characters evolved on the current tree. <b>Trace Character</b> is also using a different module, <b>Label sets</b>, to display the results.</p>
+		<p>
+		<hr>
+		</p>
+		<h3><a name="benefits"></a>Benefits of modularity</h3>
+		<p>From a programmer's point of view:</p>
+		<ul>
+			<li>some of the benefits of modularity are merely inherited from its basis in object-oriented programming, such as the isolation of different pieces of code to make programming and debugging easier.
+			<li>The fact that all modules derive from a single class and interact in similar ways means that a programmer can learn a shared set of conventions that apply to interactions between these objects, which would not be the case when dealing with a diversity of objects of deriving from different classes.
+		</ul>
+		<p>From a biologist's point of view:</p>
+		<ul>
+			<li>New analyses and user interfaces can be added to the system merely by adding new modules, thus allowing for an expanding set of features.
+			<li>There is great flexibility in the system, because there can be a series of alternative modules to serve a particular function, and the user can often interchange them on the fly.
+			<li>Because any given analysis usually involves several components, the number of possible analyses rises considerably more than linearly as new modules are written. If a calculation involves a tree, a character, and a means of display of results, then the number of different possible analyses is the product of the numbers of tree source modules, character source modules, and display modules.
+		</ul>
+		
+<p>Often it seems that in programming, the number of features rises linearly with 
+  the number of hours of effort, while the number of bugs rises considerably more 
+  than linearly. The object-orientation combined with the multiplicative rise 
+  in possible analyses as modules are added makes Mesquite behave closer to the 
+  reverse, with the number of features rising considerably more than linearly, 
+  and the number of bugs rises linearly (gods of silicon willing), with programming 
+  effort.</p>
+		<p>
+		<hr>
+		</p>
+		<h3><a name="challenges"></a>Challenges of modularity</h3>
+		
+<p>Although modularity has many benefits, it presents some considerable challenges. 
+  For instance, such a fluid system with different modules installed at different 
+  times, or with different modules in use at different times, presents many opportunities 
+  to confuse the user. In Mesquite, some of the challenges turned out to be unexpectedly 
+  easy to overcome. Other challenges appear more menacing, and it remains to be 
+  seen how well users are adapting to a modular system. Here are some of the challenges, 
+  beginning with a fairly simple one. To understand the solutions to some of these 
+  challenges, you should be aware that many Mesquite objects accept text strings 
+  as <a href="../commands/commands.html">commands</a>, and indeed much of the 
+  user interface interacts with the objects by sending such commands to them.</p>
+		<ul>
+			<li><b>Where to place menu items needed by a module?</b> Many modules need to have a way to interact with the user, and yet with so many modules operating it wouldn't make sense to have each one create a window to which could be tied the module's menu items and buttons. Mesquite modules can request <a href="../menus.html"><font color="#330099">menu items</font></a>, but where are they to appear? It turns out that the tree-like structure of module employment provides an easy solution that also accords (in most circumstances) with user expectations.<br>
+			<br>
+			Most modules do not own (i.e. supervise) a window, but some do. Thus, windows are scattered at various points along the employee tree of modules. Each window has a unique menu bar with menus and menu items. The rules for composition of the window's menu bar explain where a module's menu items will appear. The menu bar of a window will include the menus and menu items of:<br>
+    &#151; all of the employers of the module that owns the window (i.e. the module's 
+    employer module, that employer's employer, and so on, back to the Mesquite 
+    trunk module).<br>
+			&#151; the window's module.<br>
+			&#151; any employees of the window's module that don't themselves own windows, and their employees, and so on, along the tree of modules until a module owning a window is encountered. That module, and its descendent employees, have their menu items appearing in their window's menu bar instead.<br>
+			<br>
+			This set of rules means that a module's menu items will appear in the menu bar of that module's window if it owns a window. Otherwise, the menu items will fall back through the employee tree to the menu bar of the window of the nearest employer with a window. This is appropriate, because the user will understand that such options, belonging to an employee of the module owning the window, are options that belong to the display shown by that window. The menu items will also appear in any windows that belong to direct descendent-employees, which also is appropriate, because if they change the status of the module, it could have an effect on the output shown by the descendants (employees) as well.<br>
+			<br>
+			
+  <li><b>How to inform the user what can be done?</b><b> (i.e. how to present 
+    relevant documentation to the user?)</b> A fixed manual can't be written for 
+    Mesquite as a whole because its features vary as different modules are installed 
+    or uninstalled in the system. In addition, even were the set of installed 
+    modules fixed, the user interface will change (e.g. menu items will come or 
+    go) depending on what modules are currently participating in an analysis. 
+    Mesquite has aids to help the user with this confusing situation:<br>
+			&#151; Each window has an <a href="../../MesquiteWindows.html#infobar"><b>information bar</b></a> which allows the user to select different panels to display what modules are currently involved in a calculation, with links to the manual of each module whose manual (a web page) was found by the Mesquite system. This information bar also allows the user to learn about what the modules do, what their current parameters are, and what are the citations (authors, version, etc.) for the modules.<br>
+    &#151; Mesquite has an <a href="../autoDocumentation.html"><b>automatic documentation 
+    system</b></a> which composes web pages appropriate to the current state of 
+    Mesquite. Some of these web pages apply to the current installation of Mesquite 
+    (for instance, summarizing the installed modules and the commands available 
+    to control each of them). One of these pages applies to the precise situation 
+    facing the user at the moment: a window with its current analyses, display, 
+    and menu items. The user can request this page (the Menus &amp; Controls Explanations 
+    page) to be composed at any time. It includes explanations for all of the 
+    menu items of the foremost window (Mesquite determines these by finding the 
+    command that the menu item sends, and the explanation for that command), as 
+    well as explanations for buttons and other user-interface objects within the 
+    window. It is fairly easy for the programmer to support this auto-documentation; 
+    the primary obligation is to embed explanation strings in the <strong>doCommand</strong> 
+    method of Commandable objects.<br>
+			<br>
+			<li><b>How to inform the user what has been done?</b> This is perhaps the most vexing challenge, for the solutions to date in Mesquite are not entirely satisfactory. A user planning to present an analysis in a publication needs to know exactly what was done in the analysis. Given the interactivity of Mesquite, and given the number of options presented by it (in part because of its modularity), the user could find him or herself in a situation where various options were explored, but he or she might be uncertain what exactly what was done, and thus what are the assumptions and data behind the current results. There are several features that can help:<br>
+    &#151; The <b>parameters panel</b> of the window, available via the window's 
+    <a href="../../MesquiteWindows.html#infobar">information bar</a>, shows a 
+    summary of the parameter settings of the modules involved in the window. These 
+    parameters might indicate what character matrix or tree is being used in a 
+    calculation, what rate is being assumed in a stochastic model, and so on. 
+    To support this a module writer needs to override the getParameters method 
+    of the module.<br>
+			&#151; The <b>snapshot panel</b> of the window is perhaps the best guide to the current situation, but it is difficult to interpret as it is written in Mesquite's scripting language. It shows the set of commands that would need to be given to the module that owns the window to return the window (with its analyses and display) to its current state. (How Mesquite composes this snapshot is explained under &quot;How to save the current state of the analysis&quot;, below.) A similar snapsot is saved to the file whenever a file is saved, so that on reopening the file the user is returned to the same situation, with windows open and analyses active, as when the file was saved. If a user wanted to document the analyses done for a publication, he or she could make available such saved files containing snapshots of the analyses performed.<br>
+			&#151; The <b>log window</b> records commands given by the user, including those provoked by selection of menu items or buttons. This, however, would be difficult to parse through to reconstruct a long exploratory session of using Mesquite.<br>
+			<br>
+			<li><b>How to script a system with unpredictable components?</b> Mesquite is <a href="../../ScriptingMesquite.html">scriptable</a>, but how to send commands to the ancestral state reconstruction module employed by the trace character module employed by the tree window module? The solution is for modules to have commands that return their employee modules. Thus, the tree window module can be sent a command querying it for its employee, the trace character module. The command returns a reference to the module. Because the scripting language uses the variable &quot;It&quot; to refer to the object returned by the previous command, the next line in the script can indicate that subsequent commands be directed to &quot;It&quot;. Then, the trace character module can be sent a command querying for its employee, the ancestral state reconstruction module. It will be returned in &quot;It&quot;, and then subsequent commands can be directed to it. In general, it is expected that an object that itself is <a href="../javadoc/mesquite/lib/Commandable.html">Commandable</a> will include among its commands some that return references to any Commandable objects (employee modules, windows, etc.) that it supervises.<br>
+			<br>
+			<li><b>How to save the current state of an analysis?</b> On saving a file, Mesquite attempts to save the current state of analyses so that when the user reopens the file, he or she is returned to the same situation that he or she left. This may appear a difficult task given the many modules and other objects (windows, etc.) involved. In fact, the solution has been fairly simple. On saving the file, Mesquite visits a module, querying it for what set of commands would, when sent to the module, return it to its current state from its default state. In this &quot;<a href="../commands/snapshots.html">snapshot</a>&quot; set of commands are included commands for the module that will return its employee modules. (Some of these will be the commands telling the module to hire a particular module as an employee; such a command will return a reference to the module hired.) After each such command is inserted the command to direct subsequent commands to the employee returned (see the comments under &quot;How to script a system with unpredicatable components?&quot;). Then, Mesquite queries that employee module for the commands that would return it to its current state. Then, it is queried for its employees, and so on. In this way, Mesquite traverses through the entire tree of employee modules harvesting a script of commands that would return the system to its current state. This &quot;Snapshot&quot; script is saved in the file, and when the file is reread, it is executed, returning the system to its former state. Such snapshots are what is shown in the snapshot panel of windows, and are also used to clone windows.
+		</ul>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1999-2005
+</body>
+
+</html>

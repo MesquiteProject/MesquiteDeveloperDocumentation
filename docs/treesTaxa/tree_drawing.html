@@ -1,0 +1,82 @@
+<!--This file created 4.4.99 11:56 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Mesquite tree drawing</title>
+		<x-sas-window top="84" bottom="680" left="298" right="980">
+	</head>
+
+	<body bgcolor="#ffcc99">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="../modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center" bgcolor="#66ff66"><a href="trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="taxa.html">Taxa and associated classes</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="trees.html">Trees and associated classes</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="tree_drawing.html">Tree drawing</a><br>
+											<b>Taxa</b>: <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/Taxon.html">Taxon</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/Taxa.html">Taxa</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/Clade.html">Clade</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/Clades.html">Clades</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TaxaGroup.html">TaxaGroup</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TaxaPartition.html">TaxaPartition</a><br>
+											<b>Trees</b>: <img height="12" width="7" src="../images/jdoc.gif"> Interface <a href="../javadoc/mesquite/lib/Tree.html">Tree</a> <img height="12" width="7" src="../images/jdoc.gif"> Interface <a href="../javadoc/mesquite/lib/AdjustableTree.html">AdjustableTree</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteTree.html">MesquiteTree</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TreeVector.html">TreeVector</a><br>
+											<b>Drawing</b>: <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TreeDisplay.html">TreeDisplay</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TreeDrawing.html">TreeDrawing</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TreeDisplayExtra.html">TreeDisplayExtra</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TreeDecorator.html">TreeDecorator</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Tree drawing in Mesquite</h2>
+		
+<p>(updated August 2005)</p>
+		<p>The class libraries contain base classes for tree drawing. The most important of these are listed below.</p>
+		<p>A general feature of the design of tree drawing worth mentioning is that many of the modules involved in tree drawing don't perform their tree drawing duties via methods directly in their MesquiteModule subclass. Rather, they create objects of other classes (TreeDisplay, TreeDrawing, TreeDisplayExtra, TreeDecorator) that perform the tasks. The reason for this is that various tree displaying windows need multiple trees to be displayed simultaneously. Each of these displays involves a separate instance of a TreeDisplay, TreeDrawing, and so on. However, all the instances of each class are maintained by a single module (e.g., all of the TreeDrawings are maintained by a single DrawTree module). This design allows the separate instances to have common control over features, so that a change in branch width controlled by the DrawTree module can affect all of the TreeDrawings it controls.</p>
+		<p>Thus, a TreeDisplay object (created and supervised by a <a href="../javadoc/mesquite/lib/Duties/DrawTreeCoordinator.html">DrawTreeCoordinator</a> module) requests a TreeDrawing object (created and supervised by a <a href="../javadoc/mesquite/lib/Duties/drawtree.html">DrawTree</a> module) to draw the tree, and it also notifies TreeDisplayExtras (created and supervised by <a href="../javadoc/mesquite/lib/Duties/TreeDisplayAssistant.html">TreeDisplayAssistant</a> and other modules) attached to it when the tree changes or is being redrawn. These TreeDisplayExtras might in turn might request a TreeDecorator object (created and supervised by some appropriate display-controlling module) to adjust graphical output on the tree.</p>
+		<h3><a href="../javadoc/mesquite/lib/TreeDisplay.html">TreeDisplay</a></h3>
+		<p>This is the Panel in which a tree is drawn. At any given time, it is used to draw <b>one</b> Tree which is drawn by <b>one</b> TreeDrawing (if more than one tree is needed simultaneously, multiple TreeDisplays must be used). It is in the TreeDisplay that are stored such boolean flags as to whether the branch lengths are to be shown, the orientation of the tree. The TreeDisplay also maintains a list of the TreeDisplayExtra's that are associated with it, and the TreeDisplay is responsible for calling them when it is time to redraw the tree.</p>
+		<p>The TreeDisplay is instantiated and maintained by a tree draw coordinating module of duty class DrawTreeCoordinator. This module is responsible for hiring and changing DrawTree modules.</p>
+		<h3><a href="../javadoc/mesquite/lib/TreeDrawing.html">TreeDrawing</a></h3>
+		<p>An object of this class is created by a DrawTree module, and it does the drawing of the tree itself. The basic fields it contains are the x,y coordinates of the nodes, the coordinates for each branch-line, and the number of nodes. A TreeDrawing has a method that can be passed a Tree and a Grapics object, and the method will draw the tree in that context. As well, there are methods to fill branches on the tree drawing (used, e.g., by the tree window when the cursor passes over the branch), to fill terminal taxon name boxes, and to find which branch if any is under the point (x,y).</p>
+		<p>For instance, DiagonalTree creates objects of the TreeDrawing subclass DiagonalTreeDrawing. This class contains arrays for polygons at each of the nodes. When its drawTree (Tree tree, Graphics g) method is called, it first asks a NodeLocs module to calculate node locations given the current constraints in the TreeDisplay. (The NodeLocs module may also have its own parameters that can be adjusted as well.) The NodeLocs module had previously been hired by the DiagonalTree module. Once the node locations are calculated, the DiagonalTreeDrawing calculates polygons for each of the nodes, then it calls a recursive procedure to go through the tree filling the polygons. Every time the TreeDisplay is repainted it should call the drawTree method of its TreeDrawing.</p>
+		<h3><a href="../javadoc/mesquite/lib/TreeDisplayExtra.html">TreeDisplayExtra</a></h3>
+		<p>A TreeDisplayExtra is an object associated with a TreeDisplay that is added to it for calculations, display and so on. Typically, it is created by a TreeDisplayAssistant or other module. Such a module might want to create a TreeDisplayExtra, because one of these objects is notified whenever the tree needs redrawing, or when the tree is changed. Thus, a Trace Character module creates a TreeDisplayExtra and attaches it to the TreeDisplay. Then, when the tree changes, the TreeDisplayExtra's setTree method is called, and thus Trace Character knows it needs to recalculate and redraw. Trace Character's TreeDisplayExtra calls the reconstruction module to do its thing, and then it requests and update from the TreeDisplay. When the draw request comes from the TreeDisplay, the TreeDisplayExtra asks a display module to draw the reconstruction (e.g, by shading the branches). Actually, the TreeDisplayExtra asks the TreeDecorator that was supplied by the display module to do the display.</p>
+		<h3><a href="../javadoc/mesquite/lib/TreeDecorator.html">TreeDecorator</a></h3>
+		<p>A TreeDecorator is created by modules helping with tree display. For instance, Trace Character uses one employee module to reconstruct states, and another to display the results. One such display module is Shade States On Tree. The display module creates a TreeDecorator that contains the graphics code, and it's this TreeDecorator that TraceCharacter uses to display the results.</p>
+		<p>Currently, TreeDecorators are used in the context of character tracing. It is possible they might be restricted to this function (since they are passed states of characters), but in general the need for special objects to handle graphics on trees will exist in other contexts as well. In some cases the graphics on the tree will be handled directly by a TreeDisplayExtra, but if the module controlling the TreeDisplayExtra relies on an employee to do the graphics, it will probably make sense to have the employee create a TreeDecorator or object of a similar class for this purpose.</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1998-2005
+</body>
+
+</html>

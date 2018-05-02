@@ -1,0 +1,128 @@
+<!--This file created 4.4.99 11:52 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Making Modules</title>
+		<x-sas-window top="88" bottom="686" left="121" right="817">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="architecture.html">Modular architecture</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="modules.html">Modules: subclasses of MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="employing.html">Modules employing other modules</a><br>
+											<img height="12" width="7" src="../images/raindrop.gif"> <a href="duty_classes.html">Duty Classes</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingModules.html">Writing modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="moduleDocumentation.html">Documentation for particular modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingPackages.html">Packages of Modules</a><br>
+											Also: <img height="12" width="7" src="../images/leaftip.gif"> <a href="../../howMesquiteWorks.html">User's introduction to modularity</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteModule.html">MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="../exampleModule/exampleIntro.html">Example Module</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Modules employing other modules</h2>
+		
+<p>(updated August 2005)</p>
+		<p>As explained in the user's introduction to modularity and the introduction to Mesquite's modular architecture, Mesquite modules hire other modules as employees to help them perform tasks. Thus, there is an employee tree like a corporate bureaucratic hierarchy. This can be seen by touching on the Modules tab in the information bar of any window:</p>
+		<p><img src="../images/employeeTree.gif"></p>
+		<h3>The employment system</h3>
+		
+<p>The methods handling employment are in the superclass <a href="../javadoc/mesquite/lib/EmployerEmployee.html">EmployerEmployee</a> 
+  of MesquiteModule. (Note: the only subclass of EmployerEmployee is MesquiteModule. 
+  The code was divided into two levels for manageability, to separate the many 
+  methods into two smaller collections of methods.) Employees are stored in a 
+  vector (obtainable by getEmployeeVector()) and each module stores a reference 
+  to its employer (getEmployer()). Typically employers command their employees 
+  directly by their methods (less commonly by doCommand). It is considered bad 
+  form, though is sometimes done, for employees to manipulate their employers 
+  directly, in part because employees can't assume what type of module hired them. 
+  Employees typically communicate with their employers by calling parametersChanged(), 
+  which sends a message up the employer hierarchy that an employee's parameters 
+  have changed and recalculations may be needed. </p>
+		<h3>Hiring employees</h3>
+		<p>Hiring employees is often done in the startJob method of a module as it is starting up. There are two common styles:</p>
+		<ul>
+			<li>a request is made to hire an unspecified module to perform a particular duty. This is usually done by the method <b>hireEmployee</b>. For example, a module needing a source of trees may call<br>
+    treeSourceModule = (TreeSource)hireEmployee(commandRecord, TreeSource.class, 
+    &quot;Source of trees&quot;);<br>
+    The first argument, commandRecord, stores the context of execution (this argument 
+    will probably be abandoned by Mesquite version 1.2). The second argument, 
+    TreeSource.class, indicates what type of employee to hire. If more than one 
+    of that type of module is available, and the boolean scripting is false, then 
+    the user will be queried via a dialog box which module to hire as long as 
+    the current thread of execution is not commanded by a script, in which case 
+    the dialog box would be unwise (whether the context is scripting is stored 
+    in the CommandRecord). The String passed is shown in the dialog box as an 
+    explanation for the user. If hireEmployee is unsuccessful at hiring the module, 
+    it will return null. The employer typically needs to keep a reference to the 
+    employee hired (here, in the variable &quot;treeSourceModule&quot;) for later 
+    use. 
+  <li>a specifically named module is requested.  For example, a module may want only the tree source &quot;Stored Trees&quot;.  It would use <b>hireNamedEmployee</b>, as in<br>
+    treeSourceModule = (TreeSource)hireNamedEmployee(commandRecord, TreeSource.class, 
+    &quot;Stored Trees&quot;);<br>
+		</ul>
+		
+<p>If an employee is needed which satisfies a given condition (e.g., it can work 
+  with continuous-valued data), the method hireCompatibleEmployee is known, and 
+  the condition is passed as a parameter. A common compatibility condition is 
+  type of data. For instance, passing ContinuousState.class as a condition when 
+  hiring a CharacterSource ensures that the CharacterSource can and will supply 
+  only continuous-valued data. </p>
+		<h3>Replacing existing employees</h3>
+		<p>Replacing of existing employees is typically done in the doCommand method in response to user or script commands to swap one employee for another.  The methods used are <b>replaceEmployee</b> or <b>replaceCompatibleEmployee</b>.  An example of replaceEmployee is seen in the <a href="../exampleModule/exampleEmployment.html">example module</a>.</p>
+		<h3>Employees quitting</h3>
+		
+<p>An employee can quit by calling its iQuit() method. This closes down the employee, 
+  and notifies the employer. If the employer had attached a hiring command to 
+  the employee on hiring (via setHiringCommand()), the employee attempts to use 
+  the hiring command to find a replacement employee for itself. That is, the employee 
+  attempts to find a suitable replacement and get the employer to hire the replacement 
+  by calling hiring command's doIt method, passing along the name of the replacement 
+  as an argument. On the other hand, if the employer hadn't attached a hiring 
+  command, or if hiring a replacement had been unsuccessful, the employee simply 
+  calls its employer's employeeQuit() method. Modules should override their employeeQuit() 
+  method to see if an vital employee has quit. If so, the employer itself could 
+  choose to quit.</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1999-2005 
+<p>
+	</body>
+
+</html>

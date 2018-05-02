@@ -1,0 +1,107 @@
+<!--This file created 4.4.99 11:26 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Intro. to Documentation</title>
+		<x-sas-window top="60" bottom="669" left="154" right="799">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="images/raindrop.gif"> <a href="documentation.html"><font color="#330099">Documentation for users</font></a> <img height="12" width="7" src="images/raindrop.gif"> <a href="autoDocumentation.html">Automatic documentation system</a> <img height="12" width="7" src="images/raindrop.gif"> Command explanations <img height="12" width="7" src="images/raindrop.gif"> Menu and control explanations <img height="12" width="7" src="images/jdoc.gif"> class <a href="javadoc/mesquite/lib/commandchecker.html">CommandChecker</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		
+<h2>Documenting Mesquite for users</h2>
+		
+<p>(August 2005)</p>
+		<p>To document Mesquite for users and programmers is difficult because of its size and modularity. The former means the documentation is incomplete; the latter means that the documentation can be difficult to find. See the page from the user's manual <a href="../help.html">introducing documentation and explanations</a>. Basically there are four main sources of documention as to what users <b>could do</b>:</p>
+		<ol>
+			
+  <li>The central user's and developer's manuals. The user's manual accompanies 
+    Mesquite, in <strong>Mesquite_Folder/docs/mesquite/manual.html</strong>. The 
+    developer's manual begins <a href="Mesquite_Development.html">here</a>.
+  <li>Whatever manuals might belong to the individual modules. These can be found 
+    via the Modules Loaded menu item in the Help menu of Mesquite. 
+  <li>The documentation pages for installed packages. These can be found by touching on the banners in the Mesquite startup window, and by the list of packages in the Help menu.
+			<li>The documentation that Mesquite composes <a href="autoDocumentation.html">automatically</a>.
+			<ol>
+				
+      <li><u>Information pages for the modules</u> and scripting commands. These 
+        pages are composed by Mesquite, based on information it finds in the modules 
+        themselves, once each time it runs when a menu item is selected that would 
+        take you to a web page. They include a basic explanation of what the module 
+        does, explanations of menu items belonging to the module, and its scripting 
+        commands. These pages are available via the <b>Modules Loaded</b> menu 
+        item in the <b>Help</b> menu, and by touching on the name of the module 
+        in the Employee tree view of windows. 
+      <li><u>Menu and button explanation pages</u>. The <b>Menu &amp; Control Explanations</b> menu item of the <b>Window</b> menu of Mesquite cause Mesquite to compose a web page summarizing the menu items or buttons for the current window, and to show it to you.
+				
+      <li><u>Explanation area of windows</u>. At the bottom of most windows are 
+        two text areas. The top one is white and shows footnotes and other annotations 
+        for the data, taxa, trees, and so on. The bottom one is yellowish and 
+        shows explanations for tools and menus and explanations generated automatically 
+        by Mesquite describing objects like trees and data matrices. Mesquite 
+        will show an explanation for a menu item in this explanation area if you 
+        select the menu item while holding the option or ALT key. 
+      <li><u>Keyword search</u>. The <b>Keyword search</b> item in the <b>Help</b> menu provides a currently-primitive facility to search among the names and explanations of all of the installed modules to find a keyword. You could, for instance, search for &quot;simulat&quot; to find all of the modules that might have to do with simulations.
+			</ol>
+		</ol>
+		<p>A second issue is for users to know what they <b>have done</b>. There are three facilities to help here:</p>
+		<ol>
+			<li>Information bar of windows. The <a href="../MesquiteWindows.html">information bar</a> has various tabs that control alternative views of a window's contents. Some of these give information about the current calculations, the parameters in use, and details about the modules in use by the window.
+			
+  <li>The log window, available by selecting <b>Mesquite Log</b> in the <b>Window</b> 
+    menu. This text is also saved automatically to a file called &quot;Mesquite 
+    log&quot;. 
+  <li>Auto-scripting for file saving. When Mesquite saves NEXUS files, it automatically constructs a script that attempts to return an analysis to its current state. This not only allows a user to save a snapshot of an analysis, but the script itself can also be inspected to determine current parameters (in case that's not evident otherwise). Snapshot scripts can also be seen for individual windows, by selecting the appropriate item in the <b>Scripting</b> submenu of the <b>Windows</b> menu.
+		</ol>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 2001-2005 
+</body>
+
+</html>

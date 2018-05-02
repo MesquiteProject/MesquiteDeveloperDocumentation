@@ -1,0 +1,95 @@
+<!--This file created 4.4.99 11:52 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Mesquite Modules</title>
+		<x-sas-window top="88" bottom="686" left="121" right="817">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="architecture.html">Modular architecture</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="modules.html">Modules: subclasses of MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="employing.html">Modules employing other modules</a><br>
+											<img height="12" width="7" src="../images/raindrop.gif"> <a href="duty_classes.html">Duty Classes</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingModules.html">Writing modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="moduleDocumentation.html">Documentation for particular modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingPackages.html">Packages of Modules</a><br>
+											Also: <img height="12" width="7" src="../images/leaftip.gif"> <a href="../../howMesquiteWorks.html">User's introduction to modularity</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteModule.html">MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="../exampleModule/exampleIntro.html">Example Module</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Modules: subclasses of the class MesquiteModule</h2>
+		
+<p>(updated August 2005)</p>
+		<p>Modules are subclasses of <a href="../javadoc/mesquite/lib/MesquiteModule.html">MesquiteModule</a>, which in turn is a subclass of <a href="../javadoc/mesquite/lib/EmployerEmployee.html">EmployerEmployee</a>, which in turn is a subclass of <a href="../javadoc/mesquite/lib/MenuOwner.html">MenuOwner</a>. The latter two classes are not intended to be used for anything else other than to serve as superclasses for MesquiteModule. The reason the three classes are separated is to partition the many methods needed into natural groups that are smaller and more manageable. MenuOwner includes all of the many methods to added and manipulate menu items. EmployerEmployee contains the methods to deal with the employee-employer interactions among modules (hiring, firing, and so on). MesquiteModule itself contains methods dealing with other issues. We will speak of all of these methods as if they belonged to the MesquiteModule class.</p>
+		
+<p><b>Note about INSTANTIATION</b>: for MesquiteModules to be used in the system 
+  of employees and employers, they <u>should not be instantiated directly</u>. 
+  Instantiation is handled automatically by methods of EmployerEmployee when hireEmployee, 
+  hireCompatibleEmployee, or replaceEmployee is called. Consequently, subclasses 
+  of MesquiteModule do not need and <u>should not have constructors</u>. Instead, 
+  the equivalent of a constructor is the startJob method, which is called whenever 
+  a module is instantiated for use.</p>
+		<p>Some of the basic methods of MesquiteModule are the following. The methods <u>underlined</u> are built-in and you won't need to override them. For the other methods to be useful to you, you will need to override them.</p>
+		<ul>
+			<li><b>startJob</b> - a bit like a constructor, called when a module is first hired as an employee. Here the module must initialize important variables and so on. endJob() is called when the module is to clean up to be shut down.
+			<li><b>doCommand</b> - called typically when a MesquiteCommand is activated on the module; passes text-based commands to the module (see <a href="../../ScriptingMesquite.html">scripting</a> and <a href="../commands/commands.html">commands</a>).
+			<li><b>getSnapshot</b> - called in various circumstances to request a <a href="../commands/snapshots.html">snapshot</a> of current conditions (the text-based commands required to put the module to its current state). Used, for instance, in saving the MESQUITE block of NEXUS files and in cloning windows.
+			<li><u><b>hireEmployee</b></u><u>, <b>replaceEmployee</b></u> - to hire another module as an <a href="architecture.html">employee</a>, with an indication of <a href="duty_classes.html">duties</a> sought.
+			<li><b>employeeParametersChanged</b> - called when one of the module's employees has changed its parameters in a fundamental way and the module should assume recalculations are needed
+			<li><u><b>addMenuItem</b></u> and related methods - to request menu items for the module
+			<li><b>getName</b>, <b>getAuthors</b>, <b>getExplanation</b> - called to request basic information about the module.
+			<li><b>getParameters</b> - called when information is needed about the module's current state or calculations. This will be critical for logging and stamping output to document parameters for calculations.
+			<li><u><b>alert</b></u> - presents a dialog box to alert the user.
+			<li><u><b>log</b></u><u>, <b>logln</b></u> - writes text to log window
+		</ul>
+		<p>To be useful, modules must subclass the <a href="duty_classes.html">duty classes</a> which are subclasses of MesquiteModule. Each duty class promises to perform a particular set of functions.</p>
+		<p>A more complete description of Mesquite's modularity is given under <a href="architecture.html">architecture</a>.</p>
+		
+<p>To learn how to write a Mesquite module see <a href="makingModules.html">Making 
+  Modules</a>.&nbsp;Also, see the example modules in <a href="../mesquite.examples">mesquite.examples</a>.</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1999-2005</p> 
+<p>
+	</body>
+
+</html>

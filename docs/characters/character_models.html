@@ -1,0 +1,108 @@
+<!--This file created 4.4.99 11:27 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Character models</title>
+		<x-sas-window top="148" bottom="697" left="92" right="834">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="../modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="character_data.html">Character Data</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="character_models.html">Character Models</a> Also: <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/characters/CharacterState.html">CharacterState</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/characters/CharacterData.html">CharacterData</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/characters/CharacterDistribution.html">CharacterDistribution</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/characters/CharacterHistory.html">CharacterHistory</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/characters/CharacterModel.html">CharacterModel</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/ModelSet.html">ModelSet</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Character Models</h2>
+		
+<p>(updated August 2005)</p>
+<p>A model of character evolution could be anything from the specification of 
+  a single parameter (e.g. a rate of change) to something more complex, whether 
+  in the parsimony realm (an indication of the cost for a transition from one 
+  state to another) or the likelihood realm (a transition probability or rate 
+  matrix). In Mesquite, such models are represented by objects of the class <a href="../javadoc/mesquite/lib/characters/CharacterModel.html">CharacterModel</a>. 
+  Such models can be used in calculations in various manners. Subclasses of the 
+  class <a href="../javadoc/mesquite/lib/characters/CharacterModel.html">CharacterModel</a> 
+  include <a href="../javadoc/mesquite/lib/ParsimonyModel.html">ParsimonyModels</a> 
+  and <a href="../javadoc/mesquite/lib/ProbabilityModel.html">ProbabilityModels</a>.</p>
+<p>We recommend you look to curator modules for examples of how models are managed:</p>
+<ul>
+  <li>Step matrix curator (mesquite.parsimony.StepmatrixCurator)</li>
+  <li>Mk1 curator (mesquite.stochchar.MkModelCurator)</li>
+  <li>Brownian motion model curator (mesquite.stochchar.Brownian)</li>
+</ul>
+<p>To add a new model to Mesquite, you will have to add the model class and a 
+  curator module (see Brownian and its model). This would be enough for simulations. 
+  For likelihood you may have to do more (see Mk1 as an example).</p>
+<h3><a name="storage"></a>Storage of Models</h3>
+		<p><b>Storage in project</b> : Models are stored in each project (MesquiteProject) by calling their addToFile method (inherited from <a href="../javadoc/mesquite/lib/FileElement.html">FileElement</a>) and passing the project as the second parameter. This in turn calls the project's addFileElement method, which then places the character model object in the charModels listable vector of the project. Information about the character models stored in the project can be obtained from the getCharacterModels, getNumModels, getCharacterModelNames, getCharacterModel and getDefaultModel methods of <a href="../javadoc/mesquite/lib/MesquiteProject.html">MesquiteProject</a>.</p>
+		<p><b>Storage in saved files</b>: Typically, specifications for the models with fixed parameters (e.g., the predefined ones) will not be saved in NEXUS files, but the specifications for models with parameters that need specification (e.g., cost matrices; stochastic models with rate parameters) will be saved in NEXUS files. For this reason some of the modules that manage special types of models are called &quot;curators&quot; (such modules are subclasses of <a href="../javadoc/mesquite/lib/Duties/CharModelCurator.html">CharModelCurator</a>), because they must create instances of such models, provide the user with some way to change their parameters, and handle saving a specification of the parameters to the NEXUS file.</p>
+		<h3>Parsimony models</h3>
+		<p>Parsimony models are the equivalent of the &quot;transformation types&quot; of MacClade. Each model represents an assumption that specifies how many steps there are for a change from one state to another, and it may impose constraints on changes. For categorical characters, some of the basic models are that character states are <b>unordered</b> (one step for any change of state), <b>ordered</b> (number of steps between state i and j = |i-j| ), and <b>irreversible</b> (ordered with restriction that state cannot decrease). For continuous characters, the two basic models are <b>linear</b> (cost of a change from x to y is |x-y|) and <b>squared change</b> (cost of a change from x to y is (x-y)<sup>2</sup>). These models are &quot;predefined&quot; in the sense that objects to represent them are automatically created and added to the project by the standard modules that manage categorical and continuous characters.</p>
+		<p>Each of these models is represented in Mesquite by objects of different subclasses of Parsimony model. Thus, for each MesquiteProject, there is an object representing the unordered model, another representing the ordered model, and so on. Currently the predefined subclasses of these models are defined in the modules that manage particular data types (e.g., ManageCategoricalChars and ManageContChars). For instance, ManageCategoricalChars defines <b>UnorderedModel</b>, <b>OrderedModel</b>, and <b>IrreversibleModel</b> classes as subclasses of <a href="../javadoc/mesquite/categ/CategParsimonyModel.html">CategParsimonyModel</a>. Once a project is established, the module adds an instance of each of these models to the project (the project maintains a <a href="#storage">record</a> of all the defined character models). Likewise, ManageContChars creates objects of class <a href="../javadoc/mesquite/cont/ContParsimonyModel.html">ContParsimonyModel</a>. to represent squared-change parsimony and linear parsimony. These models are then available to calculations modules.</p>
+		<p>The objects representing these predefined parsimony models do almost nothing (unlike the case of ProbabilityModels, which may do much more). The predefined ParsimonyModels do little more than hold a record of their names (e.g., &quot;Unordered&quot;), the token used for them in NEXUS files (e.g., &quot;unord&quot;), and the type of data to which they apply (e.g., CategoricalState.class). All of the burden of calculations under these models is placed on the modules doing the calculations. The models exist as objects merely to serve as references (e.g., a data matrix can store for each character a reference to which parsimony model currently applies) and to aid in the compilation of available models for menus and lists.</p>
+		<p>In additon to these predefined parsimony models, modules (especially the <a href="../javadoc/mesquite/lib/Duties/CharModelCurator.html">CharModelCurator</a>s) may define their own classes of parsimony models. For instance, the StepMatrixCurator module can read and write cost matrices from and to NEXUS files, and also presents the user with a window by which to create new cost matrices or edit existing ones. When a new cost matrix object is created by reading a NEXUS file or at user's request, the curator adds it to the project so it is available to other modules. The <a href="../javadoc/mesquite/categ/CostMatrixModel.html">CostMatrix</a> subclass of <a href="../javadoc/mesquite/categ/CategParsimonyModel.html">CategParsimonyModel</a> is defined in the categorical library and is thus available to modules doing calculations.</p>
+		<p>Modules coordinating parsimony calculations currently check to see what is the current model applied to a particular character, then seek a calculation module that is capable of dealing with that subclass of model. The appropriate method of the calculation module is called and the model object passed to it.</p>
+		<h3>Probability models</h3>
+		<p>Probability models are used both for likelihood calculations, and for stochastic simulations of evolution. They are subclasses of <a href="../javadoc/mesquite/lib/ProbabilityModel.html">ProbabilityModel</a>, and include subclasses of <a href="../javadoc/mesquite/categ/ProbabilityCategCharModel.html">ProbabilityCategCharModel</a> for categorical characters, and <a href="../javadoc/mesquite/cont/ProbabilityContCharModel.html">ProbabilityContCharModel</a> for continuous-valued characters. At present, there are none built into the libraries, but Jukes-Cantor (for categorical characters) and Brownian (for continuous-valued characters) are defined in modules and are treated as defaults. Each character in a matrix is assigned a ProbabilityModel either explicitly or as defaults.</p>
+		<p>For simulations of character evolution, the model's <b>evolveState</b>(CharacterState beginState, CharacterState endState, Tree tree, int node) method can be used to generate a stochastically evolved state at the end of the branch, given the state at the beginning of the branch. The beginState CharacterState must be filled with the value of the state at the beginning of the branch (and must be of the appropriate data type for the model, e.g. categorical or continuous), and the endState object must be instantiated and of the appropriate type (in order to receive the resulting state). Subclasses of ProbabilityModel for particular data types have variants of the evolveState method which are tuned to their data type and which may be used for greater speed (i.e., for categorical characters they would take an int as a parameter for the beginning state, and return an int as the endState).</p>
+		<p>For likelihood calculations, there are not yet general (independent of data type) methods for returning probabilities, because for some data types probabilities would be appropriate, for others, probability densities. In <a href="../javadoc/mesquite/categ/ProbabilityCategCharModel.html">ProbabilityCategCharModel</a>, the method <b>transitionProbability</b>(int beginState, int endState, Tree tree, int node) returns the probability of a change from beginState to endState along the node of the tree.</p>
+		<p>Some probability-based calculations may use an existing, fully specified model currently stored in the project. This might be done for simulations, for example. Such models might simply be chosen by using the getCharacterModel and related methods of MesquiteProject. A method that allows the user to select an appropriate CharacterModel is the static method <b>CharacterModel.chooseExistingCharacterModel</b>(MesquiteModule m, Class modelClass, String explanation) of <a href="../javadoc/mesquite/lib/characters/CharacterModel.html">CharacterModel</a>. Alternatively, such an existing model may be chosen because it is currently assigned to a particular character. A character's currently assigned model can be determined by hiring the <a href="../javadoc/mesquite/lib/Duties/ProbModelSource.html">ProbModelSource</a> module &quot;CurrentProbModels&quot;. A calculation might use a character's currently assigned model if it is calculating likelihood with fixed rates. If you want to use a model that is fully specified and constant, you may need to create and edit the model before using it.</p>
+		<p>Other probability-based calculations might instead take a new instance of a class of model (e.g., JukesCantorModel) and perhaps even adjust/estimate its parameters during the course of calculations. Currently, to do this, one can call the <b>makeNewModel</b> method of any available <a href="../javadoc/mesquite/lib/Duties/CharModelCurator.html">CharModelCurator</a> modules. While one could hire such a module to obtain a model, there should be already-instantiated curator modules that are employees of the module ManageCharModels. One can obtain a list of these curators via the <b>CharacterModel.findCurators</b>(MesquiteModule m, Class modelClass).</p>
+		<p>A method that returns a new model, allowing the user to select the type, is the static method <b>CharacterModel.chooseNewCharacterModel</b>(MesquiteModule m, Class modelClass, String explanation) of <a href="../javadoc/mesquite/lib/characters/CharacterModel.html">CharacterModel</a>. The modelClass passed is the general subclass desired (e.g., <a href="../javadoc/mesquite/categ/ProbabilityCategCharModel.html">ProbabilityCategCharModel</a>); the method will take care of finding what curators are available for specific subtypes.</p>
+		<p>Currently (May 2000), likelihood calculations use the fixed models currently applied to the characters, and the current branch lengths of the tree. Obviously alternative calculations should be eveloped which allow the branch lengths of the tree to be estimated in the process, and which allow the parameters of the model to be estimated in the process. For the former, it would make sense if the calculating module would maintain its own copy of the branch lengths that it adjusts, so as not to adjust any assigned branch lengths the belong to the tree itself. For the latter, some sort of estimateParameters(CharacterDistribution observedStates, Tree tree) needs to be made a standard part of ProbabilityModels.</p>
+		<h3>Model Sets</h3>
+		<p>To each character in a matrix, a character model can be assigned. A set of assignments for all the characters of a matrix is a <a href="../javadoc/mesquite/lib/ModelSet.html">ModelSet</a>. ModelSets are (more or less) the equivalent of NEXUS's TYPESET. A whole series of alternative ModelSets can be associated with a matrix (i.e., with a <a href="../javadoc/mesquite/lib/characters/CharacterData.html">CharacterData</a>), but only one of them is treated as indicating the &quot;current&quot; assignment of models to characters. ModelSets can be associated with CharacterData by virtue of CharacterData being a subclass of <a href="../javadoc/mesquite/lib/AssociableWithSpecs.html">AssociableWithSpecs</a>.</p>
+		
+<p>Subclasses of ModelSet include <a href="../javadoc/mesquite/lib/ParsimonyModelSet.html">ParsimonyModelSet</a>, 
+  which assigns ParsimonyModels to characters and is the equivalent of a TYPESET, 
+  and <a href="../javadoc/mesquite/lib/ProbabilityModelSet.html">ProbabilityModelSet</a> 
+  which assigns ProbabilityModels to characters. In the NEXUS file format, TYPESET 
+  is currently used for ParsimonyModelSet and PROBMODELSET for ProbabilityModelSet.</p>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 2005
+</body>
+
+</html>

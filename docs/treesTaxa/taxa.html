@@ -1,0 +1,84 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Taxa</title>
+	</head>
+
+	<body bgcolor="#ffcc99">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center"><a href="../modularity/architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center" bgcolor="#66ff66"><a href="trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="taxa.html">Taxa and associated classes</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="trees.html">Trees and associated classes</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="tree_drawing.html">Tree drawing</a><br>
+											<b>Taxa</b>: <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/Taxon.html">Taxon</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/Taxa.html">Taxa</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/Clade.html">Clade</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/Clades.html">Clades</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TaxaGroup.html">TaxaGroup</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TaxaPartition.html">TaxaPartition</a><br>
+											<b>Trees</b>: <img height="12" width="7" src="../images/jdoc.gif"> Interface <a href="../javadoc/mesquite/lib/Tree.html">Tree</a> <img height="12" width="7" src="../images/jdoc.gif"> Interface <a href="../javadoc/mesquite/lib/AdjustableTree.html">AdjustableTree</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteTree.html">MesquiteTree</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TreeVector.html">TreeVector</a><br>
+											<b>Drawing</b>: <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TreeDisplay.html">TreeDisplay</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TreeDrawing.html">TreeDrawing</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TreeDisplayExtra.html">TreeDisplayExtra</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/TreeDecorator.html">TreeDecorator</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Taxa in Mesquite</h2>
+		
+<p>(updated August 2005)</p>
+		<p>[under construction]</p>
+		<p>The entities from which our character data are taken are referred to in evolutionary biology as terminal taxa or OTU's, which may represent species, genes, or some other unit. In Mesquite there are four relevant classes:</p>
+		<ul>
+			<li><a href="../javadoc/mesquite/lib/Taxon.html">Taxon</a> &#151; representing a single terminal taxon, e.g. &quot;Homo sapiens&quot;. A Taxon object stores merely the name of the taxon, and any illustration associated with it. In the future it will store footnotes and probably other things.
+			
+  <li><a href="../javadoc/mesquite/lib/Taxa.html">Taxa</a> &#151; representing 
+    a set of terminal taxa, equivalent to a TAXA block in a NEXUS file. Taxa objects 
+    are the fundamental objects which are associated with trees and character 
+    matrices to indicate the set of taxa to which the tree or data matrix refers. 
+    A Taxa has methods for adding taxa, moving taxa to other positions in the 
+    array, and so on. The position in the array is important, for trees refer 
+    to terminal taxa by their position in the Taxa array 
+  <li><a href="../javadoc/mesquite/lib/Clade.html">Clade</a> &#151; <b>[Probably should be called CladeLabel]</b> an object used to store a label (name) that could be applied to an internal node of a tree. This does not refer to a subpart of a tree, since the same clade could be attached to nodes in different trees. Clade objects are rarely used, mostly to allow hypertext links and other special information to be associated with the label applied to an internal node.
+			<li><a href="../javadoc/mesquite/lib/Clades.html">Clades</a> &#151;<b>[Probably should be called CladeLabels]</b> a collection of Clades, stored in a Taxa object.
+			<li><a href="../javadoc/mesquite/lib/TaxaGroup.html">TaxaGroup</a> &#151; a subset of Taxon objects within a Taxa. Used for TaxaPartitions.
+			<li><a href="../javadoc/mesquite/lib/TaxaPartition.html">TaxaPartition</a> &#151; a partition of Taxon objects into TaxaGroups.
+		</ul>
+		<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 2005</p> 
+<p>
+	</body>
+
+</html>

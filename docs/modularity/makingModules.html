@@ -1,0 +1,163 @@
+<!--This file created 4.4.99 11:52 AM by Claris Home Page version 2.0-->
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Making Modules</title>
+		<x-sas-window top="88" bottom="686" left="121" right="817">
+	</head>
+
+	<body bgcolor="#ffe4b5">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td bgcolor="black"><img src="../images/devIcon.gif"></td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="1" width="75">
+						<tr>
+							<td><font color="#009999">
+								<table width="636" border="1" cellpadding="0" cellspacing="1">
+									<tr>
+										<td align="center"><a href="../Mesquite_development.html"><font color="#330099">General</font></a></td>
+										<td align="center" bgcolor="#66ff66"><a href="architecture.html"><font color="#330099">Modularity</font></a></td>
+										<td align="center"><a href="../exampleModule/exampleIntro.html"><font color="#330099">Example Module</font></a></td>
+										<td align="center"><a href="../files/files.html"><font color="#330099">Projects &amp; Files</font></a></td>
+										<td align="center"><font color="#330099"><a href="../commands/commands.html">Commands &amp; Scripting</a></font></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../windows.html"><font color="#330099">Windows</font></a></td>
+										<td align="center"><a href="../menus.html"><font color="#330099">Menus</font></a></td>
+										<td align="center"><a href="../charts/charts.html"><font color="#330099">Charts</font></a></td>
+										<td align="center"><a href="../tables/tables.html"><font color="#330099">Tables</font></a></td>
+										<td align="center"><a href="../buttons_and_tools.html"><font color="#330099">Buttons &amp; tools</font></a></td>
+									</tr>
+									<tr>
+										<td align="center"><a href="../treesTaxa/trees.html"><font color="#330099">Trees and Taxa</font></a></td>
+										<td align="center"><a href="../characters/character_data.html"><font color="#330099">Characters &amp; Models</font></a></td>
+										<td align="center"><a href="../documentation.html"><font color="#330099">Documentation</font></a></td>
+										<td align="center"><a href="../Utilities.html"><font color="#330099">General Utilities</font></a></td>
+										<td align="center"></td>
+									</tr>
+								</table>
+								</font></td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" cellpadding="0" cellspacing="1" width="636">
+									<tr>
+										<td bgcolor="#66ff66"><img height="12" width="7" src="../images/raindrop.gif"> <a href="architecture.html">Modular architecture</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="modules.html">Modules: subclasses of MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="employing.html">Modules employing other modules</a><br>
+											<img height="12" width="7" src="../images/raindrop.gif"> <a href="duty_classes.html">Duty Classes</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingModules.html">Writing modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="moduleDocumentation.html">Documentation for particular modules</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="makingPackages.html">Packages of Modules</a><br>
+											Also: <img height="12" width="7" src="../images/leaftip.gif"> <a href="../../howMesquiteWorks.html">User's introduction to modularity</a> <img height="12" width="7" src="../images/jdoc.gif"> class <a href="../javadoc/mesquite/lib/MesquiteModule.html">MesquiteModule</a> <img height="12" width="7" src="../images/raindrop.gif"> <a href="../exampleModule/exampleIntro.html">Example Module</a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<h2>Writing Mesquite modules</h2>
+		
+<p>(updated August 2005)</p>
+		
+<p>If you want to write your own module, probably most important is to examine 
+  some example module code. Find a module that does an analogous task, and base 
+  your module on that. It is true that you can create a module by subclassing 
+  MesquiteModule and overriding a few methods, but likely it won't do much useful. 
+  It will be particularly helpful to examine existing modules for examples of 
+  how to structure the doCommand and getSnapshot methods, but also for more specialized 
+  methods for particular duty classes.</p>
+		<p>These might be the steps in making a module.</p>
+		<ol>
+			<li><b>First</b>, decide on what the module is to do. Subclass the correct <a href="duty_classes.html">duty class</a>. For instance, if you want to make a module that returns a number for a tree, subclass the duty class NumberForTree.
+			
+  <li><b>Second</b>, find code for a module of the same duty class to serve as 
+    an example. You might even want to copy the code and strip out the details 
+    to obtain a skeletal module on which to build yours (assuming you are planning 
+    to LGPL your source as well).
+  <li><b>Third</b>, check to see what methods are required of a module of that 
+    duty class. Add them to your module. 
+  <li><b>Fourth</b>, compile the module. Its class files should be placed in a 
+    directory of the same name as the class of the module, within the mesquite 
+    directory in the Mesquite_Folder. Module directories are not expected to be 
+    placed directly in the mesquite directory, but rather in subdirectories thereof 
+    (e.g. in Mesquite_Folder/mesquite/decorator/). A module AddTinsel.class of 
+    the decorator package would therefore be Mesquite_Folder/mesquite/decorator/AddTinsel/AddTinsel.class.
+  <li><b>Fifth</b>, if necessary, write the manual. It should be named manual.html and it should be placed in the module's directory.
+		</ol>
+		<p>Below is code for a small example module, one that returns the number of taxa in the tree. A more complex module showing a window is described <a href="../exampleModule/exampleIntro.html">here</a>.</p>
+		<p>
+		<hr></p>
+<pre>
+<font color="red"> /** Note: the getNumber and getResultString methods will probably be soon eliminated from NumberForTree modules */</font>
+
+<font color="blue">package</font> mesquite.basic.NumberOfTaxa;
+<font color="blue">import</font> mesquite.lib.*;  <font color="red">//Where most Mesquite library classes are defined</font>
+<font color="blue">import</font> mesquite.lib.duties.*; <font color="red">//Where NumberForTree is defined</font>
+
+<font color="red">/**A little module that can counts the number of terminal taxa in a tree.</font>
+<font color="red">Usually not to useful, but serves to demonstrate NumberForTree modules*/</font>
+<font color="blue">public class</font> <b>NumberOfTaxa</b> <font color="blue">extends</font> <b>NumberForTree</b> {
+  MesquiteNumber nt;
+
+<font color="red">  /**The standard substitute for a constructor (NOTE: do not use constructors for</font>
+<font color="red">   Mesquite modules). This method is called when a module is hired and is to be</font>
+<font color="red">   started up.  Basic initialization should happen here, just as in a constructor.*/</font>
+<font color="red"><b>    /* Overrides method of MesquiteModule */</b></font>
+  <font color="blue">public boolean</font> <b>startJob</b>(<font color="blue">String</font> arguments, <font color="blue">Object</font> condition, <font color="blue">CommandRecord</font> commandRec, <font color="blue">boolean</font> hiredByName) {
+      nt= <font color="blue">new</font> MesquiteNumber();
+      <font color="blue">return</font> true;
+  }
+
+<font color="red">  /**Required by NumberForTree; called in case module needs to initialize anything 
+  (e.g. querying user for details) before calculations start in earnest.*/</font>
+<font color="red"><b>    /* Overrides method of MesquiteModule */</b></font>
+  <font color="blue">public void</font> <b>initialize(Tree tree, CommandRecord commandRec)</b>() {
+  }
+
+<font color="red">  /**The main calculating method for NumberForTree modules.  The tree for which a</font>
+<font color="red">   number is to be calculated is passed as a parameter, as is a number wrapper class </font>
+<font color="red">   to receive the result.  The boolean &quot;scripting&quot; indicates whether the request</font>
+<font color="red">   comes in the context of a script being executed.*/</font>
+  <font color="blue">public void</font> <b>calculateNumber</b>(Tree tree, MesquiteNumber result, MesquiteNumber resultString, <font color="blue">CommandRecord</font> commandRec) {
+     <font color="blue">if</font> (result==<font color="blue">null</font>)
+        <font color="blue">return</font>;
+     nt.setValue(tree.numberOfTerminalsInClade(tree.getRoot()));
+     result.setValue(nt);
+     if (resultString != null)
+        resultString.setValue(&quot;Number of terminal taxa in tree: &quot; + nt);
+  }
+  
+<font color="red">  /**Returns an explanation of what the module does.*/</font>
+<font color="red"><b>    /* Overrides method of MesquiteModule */</b></font>
+  <font color="blue">public String</font> <b>getParameters</b>() {
+     <font color="blue">return</font> &quot;Number of taxa in tree&quot;;
+  }
+
+<font color="red">  /**Returns the name of the module.*/</font>
+<font color="red"><b>    /* Overrides method of MesquiteModule */</b></font>
+  <font color="blue">public String</font> <b>getName</b>() {
+     <font color="blue">return</font> &quot;Number of Taxa&quot;;
+  }
+
+
+<font color="red">  /**Returns the version of the module.*/</font>
+<font color="red"><b>    /* Overrides method of MesquiteModule */</b></font>
+  <font color="blue">public String</font> <b>getVersion</b>() {
+     <font color="blue">return</font> &quot;1.0&quot;;
+  }
+
+<font color="red">  /**Returns an explanation of what the module does.*/</font>
+<font color="red"><b>    /* Overrides method of MesquiteModule */</b></font>
+  <font color="blue">public String</font> <b>getExplanation</b>() {
+   <font color="blue">return</font> &quot;Counts the number of taxa in a tree.&quot; ;
+  }
+     
+}&nbsp;</pre>
+<p>
+		<hr>
+&copy; W. Maddison &amp; D. Maddison 1999-2005</p> 
+<p>&nbsp;
+	</body>
+
+</html>
